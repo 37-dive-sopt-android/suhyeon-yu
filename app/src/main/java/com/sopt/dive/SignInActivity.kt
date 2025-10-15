@@ -43,13 +43,8 @@ fun SignInScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // 타이틀
-        Text(
-            text = "Welcome To SOPT",
-            style = MaterialTheme.typography.titleLarge,
-            color = Color.Black,
-            textAlign = TextAlign.Center,
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold
+        Title(
+            text = "Welcome To SOPT"
         )
 
         Spacer(modifier = Modifier.height(50.dp))
@@ -75,19 +70,10 @@ fun SignInScreen() {
         Spacer(modifier = Modifier.height(400.dp))
 
         // 로그인 버튼
-        Button(
-            onClick = { /* 로그인 로직 */},
-            shape = RoundedCornerShape(25.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFF08080),
-                contentColor = Color.White
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Text("Welcome To SOPT")
-        }
+        SignButton (
+            text = "Welcome To SOPT",
+            onClick = { /* 로그인 로직 */}
+        )
 
         // 회원가입 텍스트
         TextButton(onClick = { /* 회원가입 화면 이동 */}) {
@@ -131,6 +117,35 @@ fun LabeledTextField(
             )
         )
     }
+}
+
+@Composable
+fun SignButton(text: String, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        shape = RoundedCornerShape(25.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFFFF0053),
+            contentColor = Color.White
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp)
+    ) {
+        Text(text)
+    }
+}
+
+@Composable
+fun Title(text: String) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleLarge,
+        color = Color.Black,
+        textAlign = TextAlign.Center,
+        fontSize = 30.sp,
+        fontWeight = FontWeight.Bold
+    )
 }
 
 @Preview(showBackground = true)
