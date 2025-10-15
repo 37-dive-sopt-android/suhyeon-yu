@@ -1,0 +1,93 @@
+package com.sopt.dive
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+@Composable
+fun SignUpScreen() {
+    var id by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("")}
+    var nickname by remember {mutableStateOf("")}
+    var etc by remember {mutableStateOf("")}
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 32.dp, vertical = 48.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // 타이틀
+        Title("SIGN UP")
+
+        Spacer(modifier = Modifier.height(50.dp))
+
+        // Id, Password, Nickname, etc
+        LabeledTextField(
+            label = "ID",
+            placeholder = "아이디를 입력해주세요",
+            text = id,
+            onValueChange = { id = it}
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LabeledTextField(
+            label = "PW",
+            placeholder = "비밀번호를 입력해주세요",
+            text = password,
+            onValueChange = {password = it},
+            isPassword = true
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LabeledTextField(
+            label = "NICKNAME",
+            placeholder = "닉네임을 입력해주세요",
+            text = nickname,
+            onValueChange = {nickname = it}
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LabeledTextField(
+            label = "주량",
+            placeholder = "소주 주량을 입력해주세요",
+            text = etc,
+            onValueChange = {etc = it}
+        )
+
+        Spacer(modifier = Modifier.height(250.dp))
+
+        // 회원가입 버튼
+        SignButton (
+            text = "회원가입하기",
+            onClick = { /* 회원가입 로직 */}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SignUpScreenPreview() {
+    SignUpScreen()
+}
