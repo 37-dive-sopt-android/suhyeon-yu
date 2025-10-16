@@ -124,6 +124,7 @@ fun SignUpScreen() {
                         activity.setResult(Activity.RESULT_OK, resultIntent)
 
                         activity.finish()
+                        Toast.makeText(context, "회원가입 성공", Toast.LENGTH_SHORT).show()
                     }
                 }
                 }

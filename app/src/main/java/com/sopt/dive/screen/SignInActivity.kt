@@ -53,6 +53,8 @@ fun SignInScreen() {
     // 회원가입에서 받아온 값
     var registeredId by remember { mutableStateOf("")}
     var registeredPw by remember { mutableStateOf("")}
+    var registeredNickname by remember { mutableStateOf("")}
+    var registeredEtc by remember { mutableStateOf("") }
 
     // 회원가입 결과 받기
     val signUpLauncher = rememberLauncherForActivityResult(
@@ -61,6 +63,8 @@ fun SignInScreen() {
         val data = result.data
         registeredId = data?.getStringExtra("id") ?: ""
         registeredPw = data?.getStringExtra("password") ?: ""
+        registeredNickname = data?.getStringExtra("nickname") ?: ""
+        registeredEtc = data?.getStringExtra("etc") ?.takeIf { it.isNotBlank() } ?: "응애 못 먹어요"
         }
     }
 
@@ -104,7 +108,12 @@ fun SignInScreen() {
                 if ( id == registeredId && password == registeredPw ) {
                     Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
 
-                    val intent = Intent(context, MainActivity::class.java)
+                    val intent = Intent(context, MainActivity::class.java).apply {
+                        putExtra("아이디", registeredId)
+                        putExtra("비밀번호", registeredPw)
+                        putExtra("닉네임", registeredNickname)
+                        putExtra("주량", registeredEtc)
+                    }
                     context.startActivity(intent)
                 }
                 else {
