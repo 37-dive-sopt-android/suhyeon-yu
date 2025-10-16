@@ -1,10 +1,8 @@
 package com.sopt.dive.screen
 
-import android.R.attr.onClick
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -102,7 +100,6 @@ fun SignInScreen() {
         // 로그인 버튼
         SignButton (
             text = "Welcome To SOPT",
-            onClick = {
             onClick = {
                 if ( id == registeredId && password == registeredPw ) {
                     Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
