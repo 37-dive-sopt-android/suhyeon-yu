@@ -1,4 +1,4 @@
-package com.sopt.dive
+package com.sopt.dive.screen
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

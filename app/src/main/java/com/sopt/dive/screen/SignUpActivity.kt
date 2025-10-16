@@ -1,13 +1,11 @@
-package com.sopt.dive
+package com.sopt.dive.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,12 +13,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
+import com.sopt.dive.component.LabeledTextField
+import com.sopt.dive.component.SignButton
+import com.sopt.dive.component.Title
+
 
 @Composable
 fun SignUpScreen() {
@@ -28,6 +27,8 @@ fun SignUpScreen() {
     var password by remember { mutableStateOf("")}
     var nickname by remember {mutableStateOf("")}
     var etc by remember {mutableStateOf("")}
+
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -81,7 +82,22 @@ fun SignUpScreen() {
         // 회원가입 버튼
         SignButton (
             text = "회원가입하기",
-            onClick = { /* 회원가입 로직 */}
+            onClick = {
+                when {
+                    id.length < 6 || id.length > 10 -> {
+                        Toast.makeText(context, "아이디는 6-10자여야 합니다.", Toast.LENGTH_SHORT).show()
+                    }
+                    password.length <8 || password.length > 12 -> {
+                        Toast.makeText(context, "비밀번호는 8-12자여야 합니다.", Toast.LENGTH_SHORT).show()
+                    }
+                    nickname.isBlank() -> {
+                        Toast.makeText(context, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        /* 회원가입 성공 */
+                    }
+                }
+                }
         )
     }
 }
