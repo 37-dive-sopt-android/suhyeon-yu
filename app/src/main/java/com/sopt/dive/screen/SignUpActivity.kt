@@ -1,6 +1,11 @@
 package com.sopt.dive.screen
 
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +24,19 @@ import androidx.compose.ui.platform.LocalContext
 import com.sopt.dive.component.LabeledTextField
 import com.sopt.dive.component.SignButton
 import com.sopt.dive.component.Title
+import com.sopt.dive.ui.theme.DiveTheme
+import kotlin.apply
 
+class SignUpActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            DiveTheme {
+                SignUpScreen()
+            }
+        }
+    }
+}
 
 @Composable
 fun SignUpScreen() {
@@ -77,7 +94,7 @@ fun SignUpScreen() {
             onValueChange = {etc = it}
         )
 
-        Spacer(modifier = Modifier.height(250.dp))
+        Spacer(modifier = Modifier.weight(1f))
 
         // 회원가입 버튼
         SignButton (
@@ -94,7 +111,19 @@ fun SignUpScreen() {
                         Toast.makeText(context, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show()
                     }
                     else -> {
-                        /* 회원가입 성공 */
+                        // 로그인 화면으로 보낼 데이터 담기
+                        val resultIntent = Intent().apply {
+                            putExtra("id", id)
+                            putExtra("password", password)
+                            putExtra("nickname", nickname)
+                            putExtra("etc", etc)
+                        }
+
+                        // 결과 반환
+                        val activity = context as Activity
+                        activity.setResult(Activity.RESULT_OK, resultIntent)
+
+                        activity.finish()
                     }
                 }
                 }
