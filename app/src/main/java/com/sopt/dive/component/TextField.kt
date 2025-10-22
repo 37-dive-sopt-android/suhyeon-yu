@@ -30,7 +30,13 @@ fun LabeledTextField(
         TextField(
             value = text,
             onValueChange = onValueChange,
-            placeholder = { Text(placeholder, color = Color.Gray, fontSize = 15.sp)},
+            placeholder = {
+                Text(
+                    placeholder,
+                    color = Color.Gray,
+                    fontSize = 15.sp
+                )
+            },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth(),

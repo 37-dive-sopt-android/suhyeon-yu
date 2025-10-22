@@ -12,7 +12,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SignButton(text: String, onClick: () -> Unit) {
+fun SignButton(
+    text: String,
+    onClick: () -> Unit,
+) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(25.dp),
