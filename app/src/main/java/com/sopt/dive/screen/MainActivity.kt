@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyPageScreen( // 읽기 전용 -> 인자로 전달 받기
+fun MyPageScreen(
     id: String,
     password: String,
     nickname: String,

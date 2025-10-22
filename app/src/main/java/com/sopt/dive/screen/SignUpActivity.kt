@@ -1,6 +1,5 @@
 package com.sopt.dive.screen
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -20,33 +19,72 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.platform.LocalContext
 import com.sopt.dive.component.LabeledTextField
 import com.sopt.dive.component.SignButton
 import com.sopt.dive.component.Title
 import com.sopt.dive.ui.theme.DiveTheme
-import kotlin.apply
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             DiveTheme {
-                SignUpScreen()
+                var id by remember { mutableStateOf("") }
+                var password by remember { mutableStateOf("") }
+                var nickname by remember { mutableStateOf("") }
+                var etc by remember { mutableStateOf("") }
+
+                SignUpScreen(
+                    id = id,
+                    password = password,
+                    nickname = nickname,
+                    etc = etc,
+                    onIdChange = { id = it },
+                    onPasswordChange = { password = it },
+                    onNicknameChange = { nickname = it },
+                    onEtcChange = { etc = it },
+                    onSignUpClick = {
+                        when {
+                            id.length < 6 || id.length > 10 -> {
+                                Toast.makeText(this, "아이디는 6-10자여야 합니다.", Toast.LENGTH_SHORT).show()
+                            }
+                            password.length < 8 || password.length > 12 -> {
+                                Toast.makeText(this, "비밀번호는 8-12자여야 합니다.", Toast.LENGTH_SHORT).show()
+                            }
+                            nickname.isBlank() -> {
+                                Toast.makeText(this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                            }
+                            else -> {
+                                val resultIntent = Intent().apply {
+                                    putExtra("id", id)
+                                    putExtra("password", password)
+                                    putExtra("nickname", nickname)
+                                    putExtra("etc", etc)
+                                }
+                                setResult(RESULT_OK, resultIntent)
+                                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
+                                finish()
+                            }
+                        }
+                    }
+                )
             }
         }
     }
 }
 
 @Composable
-fun SignUpScreen() {
-    var id by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("")}
-    var nickname by remember {mutableStateOf("")}
-    var etc by remember {mutableStateOf("")}
-
-    val context = LocalContext.current
-
+fun SignUpScreen(
+    id: String,
+    password: String,
+    nickname: String,
+    etc: String,
+    onIdChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onNicknameChange: (String) -> Unit,
+    onEtcChange: (String) -> Unit,
+    onSignUpClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,7 +101,7 @@ fun SignUpScreen() {
             label = "ID",
             placeholder = "아이디를 입력해주세요",
             text = id,
-            onValueChange = { id = it}
+            onValueChange = onIdChange
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -72,7 +110,7 @@ fun SignUpScreen() {
             label = "PW",
             placeholder = "비밀번호를 입력해주세요",
             text = password,
-            onValueChange = {password = it},
+            onValueChange = onPasswordChange,
             isPassword = true
         )
 
@@ -82,7 +120,7 @@ fun SignUpScreen() {
             label = "NICKNAME",
             placeholder = "닉네임을 입력해주세요",
             text = nickname,
-            onValueChange = {nickname = it}
+            onValueChange = onNicknameChange
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -91,43 +129,15 @@ fun SignUpScreen() {
             label = "주량",
             placeholder = "소주 주량을 입력해주세요",
             text = etc,
-            onValueChange = {etc = it}
+            onValueChange = onEtcChange
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
         // 회원가입 버튼
-        SignButton (
+        SignButton(
             text = "회원가입하기",
-            onClick = {
-                when {
-                    id.length < 6 || id.length > 10 -> {
-                        Toast.makeText(context, "아이디는 6-10자여야 합니다.", Toast.LENGTH_SHORT).show()
-                    }
-                    password.length <8 || password.length > 12 -> {
-                        Toast.makeText(context, "비밀번호는 8-12자여야 합니다.", Toast.LENGTH_SHORT).show()
-                    }
-                    nickname.isBlank() -> {
-                        Toast.makeText(context, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show()
-                    }
-                    else -> {
-                        // 로그인 화면으로 보낼 데이터 담기
-                        val resultIntent = Intent().apply {
-                            putExtra("id", id)
-                            putExtra("password", password)
-                            putExtra("nickname", nickname)
-                            putExtra("etc", etc)
-                        }
-
-                        // 결과 반환
-                        val activity = context as Activity
-                        activity.setResult(Activity.RESULT_OK, resultIntent)
-
-                        activity.finish()
-                        Toast.makeText(context, "회원가입 성공", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                }
+            onClick = onSignUpClick
         )
     }
 }
@@ -135,5 +145,17 @@ fun SignUpScreen() {
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    SignUpScreen()
+    DiveTheme {
+        SignUpScreen(
+            id = "",
+            password = "",
+            nickname = "",
+            etc = "",
+            onIdChange = {},
+            onPasswordChange = {},
+            onNicknameChange = {},
+            onEtcChange = {},
+            onSignUpClick = {}
+        )
+    }
 }
