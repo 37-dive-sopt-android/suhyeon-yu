@@ -1,19 +1,16 @@
 package com.sopt.dive.screen
 
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.windowInsetsPadding
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,6 +27,7 @@ import com.sopt.dive.component.SignButton
 import com.sopt.dive.component.Title
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.util.IntentKeys
+import com.sopt.dive.util.SignUpValidator
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,27 +52,16 @@ class SignUpActivity : ComponentActivity() {
                     onNicknameChange = { nickname = it },
                     onEtcChange = { etc = it },
                     onSignUpClick = {
-                        when {
-                            id.length < 6 || id.length > 10 -> {
-                                Toast.makeText(this, getString(R.string.toast_id_fail), Toast.LENGTH_SHORT).show()
+                        if (SignUpValidator.validate(this, id, password, nickname, etc)) {
+                            val resultIntent = Intent().apply {
+                                putExtra(IntentKeys.ID, id)
+                                putExtra(IntentKeys.PASSWORD, password)
+                                putExtra(IntentKeys.NICKNAME, nickname)
+                                putExtra(IntentKeys.ETC, etc)
                             }
-                            password.length < 8 || password.length > 12 -> {
-                                Toast.makeText(this, getString(R.string.toast_pw_fail), Toast.LENGTH_SHORT).show()
-                            }
-                            nickname.isBlank() -> {
-                                Toast.makeText(this, getString(R.string.toast_nickname_fail), Toast.LENGTH_SHORT).show()
-                            }
-                            else -> {
-                                val resultIntent = Intent().apply {
-                                    putExtra(IntentKeys.ID, id)
-                                    putExtra(IntentKeys.PASSWORD, password)
-                                    putExtra(IntentKeys.NICKNAME, nickname)
-                                    putExtra(IntentKeys.ETC, etc)
-                                }
-                                setResult(RESULT_OK, resultIntent)
-                                Toast.makeText(this, getString(R.string.toast_signup_success), Toast.LENGTH_SHORT).show()
-                                finish()
-                            }
+                            setResult(RESULT_OK, resultIntent)
+                            Toast.makeText(this, getString(R.string.toast_signup_success), Toast.LENGTH_SHORT).show()
+                            finish()
                         }
                     }
                 )
@@ -98,7 +85,6 @@ private fun SignUpScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .windowInsetsPadding(WindowInsets.safeDrawing)
             .padding(
                 horizontal = 40.dp,
                 vertical = 20.dp
