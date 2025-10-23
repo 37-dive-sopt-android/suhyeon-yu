@@ -77,7 +77,7 @@ class SignUpActivity : ComponentActivity() {
 }
 
 @Composable
-fun SignUpScreen(
+private fun SignUpScreen(
     id: String,
     password: String,
     nickname: String,
@@ -147,7 +147,7 @@ fun SignUpScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpScreenPreview() {
+private fun SignUpScreenPreview() {
     DiveTheme {
         SignUpScreen(
             id = "",

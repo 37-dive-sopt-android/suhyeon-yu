@@ -23,9 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.R
 import com.sopt.dive.component.InfoItem
+import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.util.IntentKeys
 
 class MainActivity : ComponentActivity() {
@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyPageScreen(
+private fun MyPageScreen(
     id: String,
     password: String,
     nickname: String,
@@ -108,7 +108,7 @@ fun MyPageScreen(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun MyPageScreenPreview() {
+private fun MyPageScreenPreview() {
     DiveTheme {
         MyPageScreen(id = "dd", password = "dd", nickname = "수현", etc = "" )
     }

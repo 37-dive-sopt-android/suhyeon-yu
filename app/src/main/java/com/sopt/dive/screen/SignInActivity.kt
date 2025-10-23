@@ -88,7 +88,7 @@ class SignInActivity : ComponentActivity() {
 }
 
 @Composable
-fun SignInScreen(
+private fun SignInScreen(
     id: String,
     onIdChange: (String) -> Unit,
     password: String,
@@ -144,7 +144,7 @@ fun SignInScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SignInScreenPreview() {
+private fun SignInScreenPreview() {
     DiveTheme {
         SignInScreen(
             id = "",
