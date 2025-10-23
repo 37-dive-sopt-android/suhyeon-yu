@@ -58,51 +58,50 @@ private fun MyPageScreen(
     nickname: String,
     etc: String
 ) {
-    Column (
-        modifier = Modifier.fillMaxSize()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 40.dp, vertical = 50.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // 프로필 이미지
+        Image(
+            painter = painterResource(id = R.drawable.profile),
+            contentDescription = "${nickname}의 프로필 이미지",
+            modifier = Modifier
+                .size(120.dp)
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // 닉네임
+        Text(
+            text = nickname,
+            fontSize = 40.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
+
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 40.dp, vertical = 50.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .align(Alignment.Start)
+                .padding(start = 10.dp)
+
         ) {
-            // 프로필 이미지
-            Image(
-                painter = painterResource(id = R.drawable.profile),
-                contentDescription = "profile",
-                modifier = Modifier
-                    .size(120.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
+            InfoItem(title = stringResource(R.string.id_label), value = id)
+            Spacer(modifier = Modifier.height(20.dp))
 
-            Spacer(modifier = Modifier.height(24.dp))
+            InfoItem(title = stringResource(R.string.pw_label), value = password)
+            Spacer(modifier = Modifier.height(20.dp))
 
-            // 닉네임
-            Text(
-                text = nickname,
-                fontSize = 40.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            Column (
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.Start
-            ) {
-                InfoItem(title = stringResource(R.string.id_label), value = id)
-                Spacer(modifier = Modifier.height(20.dp))
-
-                InfoItem(title = stringResource(R.string.pw_label), value = password)
-                Spacer(modifier = Modifier.height(20.dp))
-
-                InfoItem(title = stringResource(R.string.etc_label), value = etc)
-                Spacer(modifier = Modifier.weight(1f))
-            }
+            InfoItem(title = stringResource(R.string.etc_label), value = etc)
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
+
 }
 
 
