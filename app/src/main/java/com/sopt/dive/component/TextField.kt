@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -21,6 +22,9 @@ fun LabeledTextField(
     onValueChange: (String) -> Unit,
     isPassword: Boolean = false
 ) {
+
+    val passwordVisualTransformation = remember { PasswordVisualTransformation() }
+
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = label,
@@ -44,7 +48,7 @@ fun LabeledTextField(
                 fontSize = 15.sp,
                 color = Color.Black
             ),
-            visualTransformation = if (isPassword) PasswordVisualTransformation()
+            visualTransformation = if (isPassword) passwordVisualTransformation
             else VisualTransformation.None,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
