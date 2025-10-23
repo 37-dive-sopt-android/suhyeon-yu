@@ -3,13 +3,17 @@ package com.sopt.dive.screen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +35,8 @@ import com.sopt.dive.util.IntentKeys
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
 
         // 로그인 화면에서 받은 데이터
         val id = intent.getStringExtra(IntentKeys.ID) ?: ""
@@ -61,7 +67,11 @@ private fun MyPageScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 40.dp, vertical = 50.dp),
+            .windowInsetsPadding(WindowInsets.safeDrawing)
+            .padding(
+                horizontal = 40.dp,
+                vertical = 20.dp
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // 프로필 이미지

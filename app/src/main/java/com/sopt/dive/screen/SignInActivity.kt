@@ -5,12 +5,17 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -32,28 +37,33 @@ import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.util.IntentKeys
 
 class SignInActivity : ComponentActivity() {
+
+    private lateinit var signUpLauncher: ActivityResultLauncher<Intent>
+
+    private var registeredId: String = ""
+    private var registeredPw: String = ""
+    private var registeredNickname: String = ""
+    private var registeredEtc: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        enableEdgeToEdge()
+
+        signUpLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data = result.data
+                registeredId = data?.getStringExtra(IntentKeys.ID) ?: ""
+                registeredPw = data?.getStringExtra(IntentKeys.PASSWORD) ?: ""
+                registeredNickname = data?.getStringExtra(IntentKeys.NICKNAME) ?: ""
+                registeredEtc = data?.getStringExtra(IntentKeys.ETC)?.takeIf { it.isNotBlank() } ?: "응애 못 먹어요"
+            }
+        }
+
         setContent {
             DiveTheme {
-                var registeredId by rememberSaveable { mutableStateOf("") }
-                var registeredPw by rememberSaveable { mutableStateOf("") }
-                var registeredNickname by rememberSaveable { mutableStateOf("") }
-                var registeredEtc by rememberSaveable { mutableStateOf("") }
-
-                val signUpLauncher = registerForActivityResult(
-                    ActivityResultContracts.StartActivityForResult()
-                ) { result ->
-                    if (result.resultCode == RESULT_OK) {
-                        val data = result.data
-                        registeredId = data?.getStringExtra(IntentKeys.ID) ?: ""
-                        registeredPw = data?.getStringExtra(IntentKeys.PASSWORD) ?: ""
-                        registeredNickname = data?.getStringExtra(IntentKeys.NICKNAME) ?: ""
-                        registeredEtc = data?.getStringExtra(IntentKeys.ETC)?.takeIf { it.isNotBlank() } ?: "응애 못 먹어요"
-                    }
-                }
-
                 var id by rememberSaveable { mutableStateOf("") }
                 var password by rememberSaveable { mutableStateOf("") }
 
@@ -99,7 +109,11 @@ private fun SignInScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 32.dp, vertical = 48.dp),
+            .windowInsetsPadding(WindowInsets.safeDrawing)
+            .padding(
+                horizontal = 40.dp,
+                vertical = 20.dp
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // 타이틀

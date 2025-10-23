@@ -1,5 +1,8 @@
 package com.sopt.dive.screen
 
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.windowInsetsPadding
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -10,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,6 +34,9 @@ import com.sopt.dive.util.IntentKeys
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
+
         setContent {
             DiveTheme {
                 var id by rememberSaveable { mutableStateOf("") }
@@ -91,7 +98,11 @@ private fun SignUpScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 32.dp, vertical = 48.dp),
+            .windowInsetsPadding(WindowInsets.safeDrawing)
+            .padding(
+                horizontal = 40.dp,
+                vertical = 20.dp
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // 타이틀
