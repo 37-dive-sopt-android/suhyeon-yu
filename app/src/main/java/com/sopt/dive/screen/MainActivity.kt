@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,16 +26,17 @@ import androidx.compose.ui.unit.sp
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.R
 import com.sopt.dive.component.InfoItem
+import com.sopt.dive.util.IntentKeys
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // 로그인 화면에서 받은 데이터
-        val id = intent.getStringExtra("아이디") ?: ""
-        val password = intent.getStringExtra("비밀번호") ?: ""
-        val nickname = intent.getStringExtra("닉네임") ?: ""
-        val etc = intent.getStringExtra("주량") ?: ""
+        val id = intent.getStringExtra(IntentKeys.ID) ?: ""
+        val password = intent.getStringExtra(IntentKeys.PASSWORD) ?: ""
+        val nickname = intent.getStringExtra(IntentKeys.NICKNAME) ?: ""
+        val etc = intent.getStringExtra(IntentKeys.ETC) ?: ""
 
         setContent {
             DiveTheme {
@@ -90,13 +92,13 @@ fun MyPageScreen(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.Start
             ) {
-                InfoItem(title = "아이디", value = id)
+                InfoItem(title = stringResource(R.string.id_label), value = id)
                 Spacer(modifier = Modifier.height(20.dp))
 
-                InfoItem(title = "비밀번호", value = password)
+                InfoItem(title = stringResource(R.string.pw_label), value = password)
                 Spacer(modifier = Modifier.height(20.dp))
 
-                InfoItem(title = "주량", value = etc)
+                InfoItem(title = stringResource(R.string.etc_label), value = etc)
                 Spacer(modifier = Modifier.weight(1f))
             }
         }

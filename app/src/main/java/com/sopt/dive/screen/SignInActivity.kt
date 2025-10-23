@@ -18,12 +18,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sopt.dive.R
 import com.sopt.dive.component.LabeledTextField
 import com.sopt.dive.component.SignButton
 import com.sopt.dive.component.Title
 import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.util.IntentKeys
 
 class SignInActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +48,10 @@ class SignInActivity : ComponentActivity() {
         ) { result ->
             if (result.resultCode == RESULT_OK) {
                 val data = result.data
-                registeredIdState.value = data?.getStringExtra("id") ?: ""
-                registeredPwState.value = data?.getStringExtra("password") ?: ""
-                registeredNicknameState.value = data?.getStringExtra("nickname") ?: ""
-                registeredEtcState.value = data?.getStringExtra("etc")?.takeIf { it.isNotBlank() } ?: "응애 못 먹어요"
+                registeredIdState.value = data?.getStringExtra(IntentKeys.ID) ?: ""
+                registeredPwState.value = data?.getStringExtra(IntentKeys.PASSWORD) ?: ""
+                registeredNicknameState.value = data?.getStringExtra(IntentKeys.NICKNAME) ?: ""
+                registeredEtcState.value = data?.getStringExtra(IntentKeys.ETC)?.takeIf { it.isNotBlank() } ?: "응애 못 먹어요"
             }
         }
 
@@ -65,17 +68,17 @@ class SignInActivity : ComponentActivity() {
                     },
                     onSignInClick = {
                         if (idState.value == registeredIdState.value && passwordState.value == registeredPwState.value) {
-                            Toast.makeText(this, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.toast_login_success), Toast.LENGTH_SHORT).show()
 
                             val intent = Intent(this, MainActivity::class.java).apply {
-                                putExtra("아이디", registeredIdState.value)
-                                putExtra("비밀번호", registeredPwState.value)
-                                putExtra("닉네임", registeredNicknameState.value)
-                                putExtra("주량", registeredEtcState.value)
+                                putExtra(IntentKeys.ID, registeredIdState.value)
+                                putExtra(IntentKeys.PASSWORD, registeredPwState.value)
+                                putExtra(IntentKeys.NICKNAME, registeredNicknameState.value)
+                                putExtra(IntentKeys.ETC, registeredEtcState.value)
                             }
                             startActivity(intent)
                         } else {
-                            Toast.makeText(this, "아이디 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.toast_login_fail), Toast.LENGTH_SHORT).show()
                         }
                     }
                 )
@@ -101,15 +104,15 @@ fun SignInScreen(
     ) {
         // 타이틀
         Title(
-            text = "Welcome To SOPT"
+            text = stringResource(R.string.login_title)
         )
 
         Spacer(modifier = Modifier.height(50.dp))
 
         // Id, Password
         LabeledTextField(
-            label = "ID",
-            placeholder = "아이디를 입력해주세요",
+            label = stringResource(R.string.id_label),
+            placeholder = stringResource(R.string.id_hint),
             text = id,
             onValueChange = onIdChange
         )
@@ -117,8 +120,8 @@ fun SignInScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         LabeledTextField(
-            label = "PW",
-            placeholder = "비밀번호를 입력해주세요",
+            label = stringResource(R.string.pw_label),
+            placeholder = stringResource(R.string.pw_hint),
             text = password,
             onValueChange = onPasswordChange,
             isPassword = true
@@ -128,13 +131,13 @@ fun SignInScreen(
 
         // 로그인 버튼
         SignButton(
-            text = "Welcome To SOPT",
+            text = stringResource(R.string.login_button),
             onClick = onSignInClick
         )
 
         // 회원가입 텍스트
         TextButton(onClick = onSignUpClick) {
-            Text("회원가입하기", color = Color.Gray)
+            Text(stringResource(R.string.signup_button), color = Color.Gray)
         }
     }
 }

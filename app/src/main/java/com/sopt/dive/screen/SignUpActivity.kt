@@ -17,12 +17,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sopt.dive.R
 import com.sopt.dive.component.LabeledTextField
 import com.sopt.dive.component.SignButton
 import com.sopt.dive.component.Title
 import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.util.IntentKeys
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,23 +49,23 @@ class SignUpActivity : ComponentActivity() {
                     onSignUpClick = {
                         when {
                             id.length < 6 || id.length > 10 -> {
-                                Toast.makeText(this, "아이디는 6-10자여야 합니다.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, getString(R.string.toast_id_fail), Toast.LENGTH_SHORT).show()
                             }
                             password.length < 8 || password.length > 12 -> {
-                                Toast.makeText(this, "비밀번호는 8-12자여야 합니다.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, getString(R.string.toast_pw_fail), Toast.LENGTH_SHORT).show()
                             }
                             nickname.isBlank() -> {
-                                Toast.makeText(this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, getString(R.string.toast_nickname_fail), Toast.LENGTH_SHORT).show()
                             }
                             else -> {
                                 val resultIntent = Intent().apply {
-                                    putExtra("id", id)
-                                    putExtra("password", password)
-                                    putExtra("nickname", nickname)
-                                    putExtra("etc", etc)
+                                    putExtra(IntentKeys.ID, id)
+                                    putExtra(IntentKeys.PASSWORD, password)
+                                    putExtra(IntentKeys.NICKNAME, nickname)
+                                    putExtra(IntentKeys.ETC, etc)
                                 }
                                 setResult(RESULT_OK, resultIntent)
-                                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, getString(R.string.toast_signup_success), Toast.LENGTH_SHORT).show()
                                 finish()
                             }
                         }
@@ -92,14 +95,14 @@ fun SignUpScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // 타이틀
-        Title("SIGN UP")
+        Title(stringResource(R.string.signup_title))
 
         Spacer(modifier = Modifier.height(50.dp))
 
         // Id, Password, Nickname, etc
         LabeledTextField(
-            label = "ID",
-            placeholder = "아이디를 입력해주세요",
+            label = stringResource(R.string.id_label),
+            placeholder = stringResource(R.string.id_hint),
             text = id,
             onValueChange = onIdChange
         )
@@ -107,8 +110,8 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         LabeledTextField(
-            label = "PW",
-            placeholder = "비밀번호를 입력해주세요",
+            label = stringResource(R.string.pw_label),
+            placeholder = stringResource(R.string.pw_hint),
             text = password,
             onValueChange = onPasswordChange,
             isPassword = true
@@ -117,8 +120,8 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         LabeledTextField(
-            label = "NICKNAME",
-            placeholder = "닉네임을 입력해주세요",
+            label = stringResource(R.string.nickname_label),
+            placeholder = stringResource(R.string.nickname_hint),
             text = nickname,
             onValueChange = onNicknameChange
         )
@@ -126,8 +129,8 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         LabeledTextField(
-            label = "주량",
-            placeholder = "소주 주량을 입력해주세요",
+            label = stringResource(R.string.etc_label),
+            placeholder = stringResource(R.string.etc_hint),
             text = etc,
             onValueChange = onEtcChange
         )
@@ -136,7 +139,7 @@ fun SignUpScreen(
 
         // 회원가입 버튼
         SignButton(
-            text = "회원가입하기",
+            text = stringResource(R.string.signup_button),
             onClick = onSignUpClick
         )
     }
