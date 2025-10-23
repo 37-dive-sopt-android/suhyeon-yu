@@ -14,7 +14,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,49 +35,46 @@ class SignInActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 사용자 입력값
-        val idState = mutableStateOf("")
-        val passwordState = mutableStateOf("")
-
-        // 회원가입에서 받아온 값
-        val registeredIdState = mutableStateOf("")
-        val registeredPwState = mutableStateOf("")
-        val registeredNicknameState = mutableStateOf("")
-        val registeredEtcState = mutableStateOf("")
-
-        // 회원가입 결과 받기
-        val signUpLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val data = result.data
-                registeredIdState.value = data?.getStringExtra(IntentKeys.ID) ?: ""
-                registeredPwState.value = data?.getStringExtra(IntentKeys.PASSWORD) ?: ""
-                registeredNicknameState.value = data?.getStringExtra(IntentKeys.NICKNAME) ?: ""
-                registeredEtcState.value = data?.getStringExtra(IntentKeys.ETC)?.takeIf { it.isNotBlank() } ?: "응애 못 먹어요"
-            }
-        }
-
         setContent {
             DiveTheme {
+                var registeredId by rememberSaveable { mutableStateOf("") }
+                var registeredPw by rememberSaveable { mutableStateOf("") }
+                var registeredNickname by rememberSaveable { mutableStateOf("") }
+                var registeredEtc by rememberSaveable { mutableStateOf("") }
+
+                val signUpLauncher = registerForActivityResult(
+                    ActivityResultContracts.StartActivityForResult()
+                ) { result ->
+                    if (result.resultCode == RESULT_OK) {
+                        val data = result.data
+                        registeredId = data?.getStringExtra(IntentKeys.ID) ?: ""
+                        registeredPw = data?.getStringExtra(IntentKeys.PASSWORD) ?: ""
+                        registeredNickname = data?.getStringExtra(IntentKeys.NICKNAME) ?: ""
+                        registeredEtc = data?.getStringExtra(IntentKeys.ETC)?.takeIf { it.isNotBlank() } ?: "응애 못 먹어요"
+                    }
+                }
+
+                var id by rememberSaveable { mutableStateOf("") }
+                var password by rememberSaveable { mutableStateOf("") }
+
                 SignInScreen(
-                    id = idState.value,
-                    onIdChange = { idState.value = it },
-                    password = passwordState.value,
-                    onPasswordChange = { passwordState.value = it },
+                    id = id,
+                    onIdChange = { id = it },
+                    password = password,
+                    onPasswordChange = { password = it },
                     onSignUpClick = {
                         val intent = Intent(this, SignUpActivity::class.java)
                         signUpLauncher.launch(intent)
                     },
                     onSignInClick = {
-                        if (idState.value == registeredIdState.value && passwordState.value == registeredPwState.value) {
+                        if (id == registeredId && password == registeredPw) {
                             Toast.makeText(this, getString(R.string.toast_login_success), Toast.LENGTH_SHORT).show()
 
                             val intent = Intent(this, MainActivity::class.java).apply {
-                                putExtra(IntentKeys.ID, registeredIdState.value)
-                                putExtra(IntentKeys.PASSWORD, registeredPwState.value)
-                                putExtra(IntentKeys.NICKNAME, registeredNicknameState.value)
-                                putExtra(IntentKeys.ETC, registeredEtcState.value)
+                                putExtra(IntentKeys.ID, registeredId)
+                                putExtra(IntentKeys.PASSWORD, registeredPw)
+                                putExtra(IntentKeys.NICKNAME, registeredNickname)
+                                putExtra(IntentKeys.ETC, registeredEtc)
                             }
                             startActivity(intent)
                         } else {

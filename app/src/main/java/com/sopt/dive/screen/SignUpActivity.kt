@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,10 +32,10 @@ class SignUpActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DiveTheme {
-                var id by remember { mutableStateOf("") }
-                var password by remember { mutableStateOf("") }
-                var nickname by remember { mutableStateOf("") }
-                var etc by remember { mutableStateOf("") }
+                var id by rememberSaveable { mutableStateOf("") }
+                var password by rememberSaveable { mutableStateOf("") }
+                var nickname by rememberSaveable { mutableStateOf("") }
+                var etc by rememberSaveable { mutableStateOf("") }
 
                 SignUpScreen(
                     id = id,
