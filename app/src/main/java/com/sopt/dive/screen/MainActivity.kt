@@ -70,7 +70,7 @@ private fun MyPageScreen(
             .windowInsetsPadding(WindowInsets.safeDrawing)
             .padding(
                 horizontal = 40.dp,
-                vertical = 20.dp
+                vertical = 40.dp
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

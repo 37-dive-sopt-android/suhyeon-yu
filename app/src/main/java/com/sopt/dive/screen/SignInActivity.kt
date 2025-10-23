@@ -74,7 +74,7 @@ class SignInActivity : ComponentActivity() {
                         signUpLauncher.launch(intent)
                     },
                     onSignInClick = {
-                        if (id == registeredId && password == registeredPw) {
+                        if (registeredId.isNotBlank() && id == registeredId && password == registeredPw) {
                             Toast.makeText(this, getString(R.string.toast_login_success), Toast.LENGTH_SHORT).show()
 
                             val intent = Intent(this, MainActivity::class.java).apply {
@@ -108,7 +108,7 @@ private fun SignInScreen(
             .fillMaxSize()
             .padding(
                 horizontal = 40.dp,
-                vertical = 20.dp
+                vertical = 40.dp
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

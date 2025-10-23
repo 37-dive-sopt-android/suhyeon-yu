@@ -87,7 +87,7 @@ private fun SignUpScreen(
             .fillMaxSize()
             .padding(
                 horizontal = 40.dp,
-                vertical = 20.dp
+                vertical = 40.dp
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
