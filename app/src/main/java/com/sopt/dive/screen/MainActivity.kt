@@ -1,36 +1,23 @@
 package com.sopt.dive.screen
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.sopt.dive.R
-import com.sopt.dive.component.InfoItem
+import com.sopt.dive.model.UserInfo
 import com.sopt.dive.ui.theme.DiveTheme
-import com.sopt.dive.util.IntentKeys
+import com.sopt.dive.util.SignUpValidator
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,87 +25,91 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
 
-        // 로그인 화면에서 받은 데이터
-        val id = intent.getStringExtra(IntentKeys.ID) ?: ""
-        val password = intent.getStringExtra(IntentKeys.PASSWORD) ?: ""
-        val nickname = intent.getStringExtra(IntentKeys.NICKNAME) ?: ""
-        val etc = intent.getStringExtra(IntentKeys.ETC) ?: ""
-
         setContent {
             DiveTheme {
-                MyPageScreen(
-                    id = id,
-                    password = password,
-                    nickname = nickname,
-                    etc = etc
-                )
+                val navController = rememberNavController()
+                val userInfo = remember { UserInfo() }
+
+                var loginId by rememberSaveable { mutableStateOf("") }
+                var loginPw by rememberSaveable { mutableStateOf("") }
+
+                val context = LocalContext.current
+
+                NavHost(navController = navController, startDestination = "signin") {
+                    composable("signin") {
+                        SignInScreen(
+                            id = loginId,
+                            onIdChange = { loginId = it },
+                            password = loginPw,
+                            onPasswordChange = { loginPw = it },
+                            onLoginClick = {
+                                // validate logic
+                                if (loginId.isBlank() || loginPw.isBlank()) {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.toast_login_fail),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else if (userInfo.validateLogin(loginId, loginPw)) {
+                                    navController.navigate("mypage")
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.toast_login_fail),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            },
+                            onSignUpClick = { navController.navigate("signup") }
+                        )
+                    }
+
+                    composable("signup") {
+                        var id by rememberSaveable { mutableStateOf("") }
+                        var pw by rememberSaveable { mutableStateOf("") }
+                        var nickname by rememberSaveable { mutableStateOf("") }
+                        var etc by rememberSaveable { mutableStateOf("") }
+
+                        SignUpScreen(
+                            id = id,
+                            onIdChange = { id = it },
+                            password = pw,
+                            onPasswordChange = { pw = it },
+                            nickname = nickname,
+                            onNicknameChange = { nickname = it },
+                            etc = etc,
+                            onEtcChange = { etc = it },
+                            onSignUpClick = { newId, newPw, newNickname, newEtc ->
+                                if (SignUpValidator.validate(
+                                        context,
+                                        newId,
+                                        newPw,
+                                        newNickname,
+                                        newEtc
+                                    )
+                                ) {
+                                    userInfo.updateUser(
+                                        id = newId,
+                                        password = newPw,
+                                        nickname = newNickname,
+                                        etc = newEtc
+                                    )
+                                    navController.popBackStack()
+                                }
+                            }
+                        )
+                    }
+
+                    composable("mypage") {
+                        MyPageScreen(
+                            id = userInfo.id,
+                            password = userInfo.password,
+                            nickname = userInfo.nickname,
+                            etc = userInfo.etc
+                        )
+                    }
+                }
             }
         }
-    }
-}
-
-@Composable
-private fun MyPageScreen(
-    id: String,
-    password: String,
-    nickname: String,
-    etc: String
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .windowInsetsPadding(WindowInsets.safeDrawing)
-            .padding(
-                horizontal = 40.dp,
-                vertical = 40.dp
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // 프로필 이미지
-        Image(
-            painter = painterResource(id = R.drawable.profile),
-            contentDescription = "${nickname}의 프로필 이미지",
-            modifier = Modifier
-                .size(120.dp)
-                .clip(CircleShape),
-            contentScale = ContentScale.Crop
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // 닉네임
-        Text(
-            text = nickname,
-            fontSize = 40.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-        Column(
-            modifier = Modifier
-                .align(Alignment.Start)
-                .padding(start = 10.dp)
-
-        ) {
-            InfoItem(title = stringResource(R.string.id_label), value = id)
-            Spacer(modifier = Modifier.height(20.dp))
-
-            InfoItem(title = stringResource(R.string.pw_label), value = password)
-            Spacer(modifier = Modifier.height(20.dp))
-
-            InfoItem(title = stringResource(R.string.etc_label), value = etc)
-            Spacer(modifier = Modifier.weight(1f))
-        }
-    }
-
-}
-
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun MyPageScreenPreview() {
-    DiveTheme {
-        MyPageScreen(id = "dd", password = "dd", nickname = "수현", etc = "" )
     }
 }
