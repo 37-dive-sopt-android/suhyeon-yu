@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.component.InfoItem
+import com.sopt.dive.component.item.InfoItem
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable

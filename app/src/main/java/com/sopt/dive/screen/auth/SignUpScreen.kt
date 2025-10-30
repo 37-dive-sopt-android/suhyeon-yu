@@ -8,9 +8,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
-import com.sopt.dive.component.LabeledTextField
-import com.sopt.dive.component.SignButton
-import com.sopt.dive.component.Title
+import com.sopt.dive.component.text.LabeledTextField
+import com.sopt.dive.component.button.SignButton
+import com.sopt.dive.component.text.Title
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
