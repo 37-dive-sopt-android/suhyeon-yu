@@ -1,7 +1,15 @@
 package com.sopt.dive.screen.main
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -16,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
+import com.sopt.dive.data.DummyData
 import com.sopt.dive.model.UserInfo
 import com.sopt.dive.ui.theme.DiveTheme
 
@@ -33,23 +42,7 @@ fun HomeScreen(userInfo: UserInfo) {
         profileImage = R.drawable.profile
     )
 
-    val friends = listOf(
-        Friend("가현", "우헤헤", R.drawable.profile),
-        Friend("나현", "안녕", R.drawable.profile),
-        Friend("다현", "안뇽", R.drawable.profile),
-        Friend("라현", "하이", R.drawable.profile),
-        Friend("마현", "하이루", R.drawable.profile),
-        Friend("가현", "우헤헤", R.drawable.profile),
-        Friend("나현", "안녕", R.drawable.profile),
-        Friend("다현", "안뇽", R.drawable.profile),
-        Friend("라현", "하이", R.drawable.profile),
-        Friend("마현", "하이루", R.drawable.profile),
-        Friend("가현", "우헤헤", R.drawable.profile),
-        Friend("나현", "안녕", R.drawable.profile),
-        Friend("다현", "안뇽", R.drawable.profile),
-        Friend("라현", "하이", R.drawable.profile),
-        Friend("마현", "하이루", R.drawable.profile),
-    )
+    val friends = DummyData.friends
 
     LazyColumn(
         modifier = Modifier
