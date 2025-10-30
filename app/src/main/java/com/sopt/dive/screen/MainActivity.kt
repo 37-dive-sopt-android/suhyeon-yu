@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.remember
 import com.sopt.dive.model.UserInfo
-import com.sopt.dive.navigatoin.DiveApp
+import com.sopt.dive.navigation.DiveApp
 import com.sopt.dive.ui.theme.DiveTheme
 
 class MainActivity : ComponentActivity() {

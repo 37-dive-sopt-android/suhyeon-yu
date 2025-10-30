@@ -1,4 +1,4 @@
-package com.sopt.dive.navigatoin
+package com.sopt.dive.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.NavigationBar

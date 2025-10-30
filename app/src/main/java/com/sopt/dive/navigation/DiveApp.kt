@@ -1,4 +1,4 @@
-package com.sopt.dive.navigatoin
+package com.sopt.dive.navigation
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
