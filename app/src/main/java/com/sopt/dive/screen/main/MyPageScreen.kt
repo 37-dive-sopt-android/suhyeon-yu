@@ -1,4 +1,4 @@
-package com.sopt.dive.screen
+package com.sopt.dive.screen.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
