@@ -51,7 +51,7 @@ fun BirthdayBadge() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "🎉️ HAPPY BIRTHDAY🎂",
+            text = "🎉️ HBD🎂",
             style = MaterialTheme.typography.bodySmall,
             color = Color(0xFFFF0053)
         )
