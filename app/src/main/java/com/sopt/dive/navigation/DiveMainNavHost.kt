@@ -16,12 +16,12 @@ fun DiveMainNavHost(navController: NavHostController,
                     modifier: Modifier = Modifier) {
     NavHost(
         navController = navController,
-        startDestination = TabItem.Home.route,
+        startDestination = TabItem.HOME.route,
         modifier = modifier
     ) {
-        composable(TabItem.Home.route) { HomeScreen(userInfo = userInfo) }
-        composable(TabItem.Search.route) { SearchScreen() }
-        composable(TabItem.My.route) {
+        composable(TabItem.HOME.route) { HomeScreen(userInfo = userInfo) }
+        composable(TabItem.SEARCH.route) { SearchScreen() }
+        composable(TabItem.MY.route) {
             MyPageScreen(
                 id = userInfo.id,
                 password = userInfo.password,

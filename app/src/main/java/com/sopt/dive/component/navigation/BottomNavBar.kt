@@ -1,6 +1,7 @@
 package com.sopt.dive.component.navigation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -21,9 +22,9 @@ import com.sopt.dive.ui.theme.DiveTheme
 @Composable
 fun BottomNavBar(navController: NavHostController) {
     val tabs = listOf(
-        TabItem.Home,
-        TabItem.Search,
-        TabItem.My
+        TabItem.HOME,
+        TabItem.SEARCH,
+        TabItem.MY
     )
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
@@ -31,6 +32,7 @@ fun BottomNavBar(navController: NavHostController) {
         containerColor = Color.White,
         tonalElevation = 4.dp,
         modifier = Modifier
+            .height(80.dp)
             .shadow(4.dp)
     ) {
         tabs.forEach { tab ->
