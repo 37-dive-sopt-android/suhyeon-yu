@@ -6,21 +6,28 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.component.item.FriendItem
 import com.sopt.dive.component.item.MyProfileItem
 import com.sopt.dive.component.text.SectionTitle
-import com.sopt.dive.data.DummyData
 import com.sopt.dive.model.HomeListItem
 import com.sopt.dive.model.UserInfo
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
-fun HomeScreen(userInfo: UserInfo) {
-    val items = DummyData.buildHomeItems(userInfo)
+fun HomeScreen(
+    userInfo: UserInfo,
+    viewModel: HomeViewModel = viewModel()
+) {
+    val items = viewModel.homeItems
 
+    LaunchedEffect(Unit) {
+        viewModel.loadHomeItems(userInfo)
+    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
