@@ -12,9 +12,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SignButton(
+fun BasicButton(
     text: String,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Button(
         onClick = onClick,
@@ -23,7 +24,7 @@ fun SignButton(
             containerColor = Color(0xFFFF0053),
             contentColor = Color.White
         ),
-        modifier = Modifier
+        modifier = modifier // -> 외부 Modifier 그대로 사용
             .fillMaxWidth()
             .height(50.dp)
     ) {
