@@ -1,4 +1,4 @@
-package com.sopt.dive.component
+package com.sopt.dive.component.button
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height

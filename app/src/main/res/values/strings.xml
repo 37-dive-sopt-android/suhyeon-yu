@@ -23,7 +23,7 @@
 
     <!-- Toast -->
     <string name="toast_login_success">로그인에 성공했습니다</string>
-    <string name="toast_login_fail">아이디 또는 비밀번호가 일치하지 않습니다</string>
+    <string name="toast_login_fail">로그인에 실패했습니다</string>
     <string name="toast_signup_success">회원가입에 성공했습니다</string>
     <string name="toast_signup_fail">회원가입에 실패했습니다</string>
     <string name="toast_id_fail">아이디는 6-10자여야 합니다</string>
