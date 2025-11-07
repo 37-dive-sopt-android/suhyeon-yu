@@ -65,9 +65,12 @@ fun DiveApp(userInfo: UserInfo) {
             )
         }
 
-        // 메인 화면
+        // 메인 화면 NavController 전달
         composable(Route.Main.route) {
-            DiveMainNav(userInfo = userInfo)
+            DiveMainNav(
+                navController = navController,
+                userInfo = userInfo
+            )
         }
     }
 }

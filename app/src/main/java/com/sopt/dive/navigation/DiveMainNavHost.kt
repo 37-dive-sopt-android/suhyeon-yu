@@ -11,9 +11,11 @@ import com.sopt.dive.screen.main.MyPageScreen
 import com.sopt.dive.screen.main.SearchScreen
 
 @Composable
-fun DiveMainNavHost(navController: NavHostController,
-                    userInfo: UserInfo,
-                    modifier: Modifier = Modifier) {
+fun DiveMainNavHost(
+    navController: NavHostController,
+    userInfo: UserInfo,
+    modifier: Modifier = Modifier
+) {
     NavHost(
         navController = navController,
         startDestination = TabItem.HOME.route,
