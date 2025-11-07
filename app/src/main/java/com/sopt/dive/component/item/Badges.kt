@@ -2,6 +2,8 @@ package com.sopt.dive.component.item
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,60 +16,48 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+enum class BadgeType(val defaultText: String, val color: Color) {
+    MUSIC("", Color(0xFF1ED760)),
+    BIRTHDAY("🎉️ HBD🎂", Color(0xFFFF0053))
+}
+
 @Composable
-fun MusicBadge(text: String) {
+fun Badge(
+    type: BadgeType,
+    text: String? = null,
+    modifier: Modifier = Modifier
+) {
+    val displayText = when (type) {
+        BadgeType.MUSIC -> text ?: "Music"
+        BadgeType.BIRTHDAY -> type.defaultText
+    }
+
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(26.dp)
             .padding(top = 2.dp)
             .border(
                 width = 1.dp,
-                color = Color(0xFF1ED760),
+                color = type.color,
                 shape = RoundedCornerShape(50)
             )
             .padding(horizontal = 10.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = text,
+            text = displayText,
             style = MaterialTheme.typography.bodySmall,
-            color = Color(0xFF1ED760)
+            color = type.color
         )
     }
 }
 
+@Preview(showBackground = true)
 @Composable
-fun BirthdayBadge() {
-    Box(
-        modifier = Modifier
-            .height(26.dp)
-            .padding(top = 2.dp)
-            .border(
-                width = 1.dp,
-                color = Color(0xFFFF0053),
-                shape = RoundedCornerShape(50)
-            )
-            .padding(horizontal = 10.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "🎉️ HBD🎂",
-            style = MaterialTheme.typography.bodySmall,
-            color = Color(0xFFFF0053)
-        )
+private fun BadgePreview() {
+    Column {
+        Badge(type = BadgeType.MUSIC)
+        Spacer(modifier = Modifier.height(8.dp))
+        Badge(type = BadgeType.BIRTHDAY)
     }
-}
-
-
-
-@Preview(showBackground = true)
-@Composable
-private fun MusicBadgePreview() {
-    MusicBadge(text = "music")
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun BirthdayBadgePreview() {
-    BirthdayBadge()
 }

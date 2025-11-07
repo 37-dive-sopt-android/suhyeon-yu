@@ -43,7 +43,7 @@ fun FriendItem(
                 )
                 if (item.isBirthday) {
                     Spacer(Modifier.width(8.dp))
-                    BirthdayBadge()
+                    Badge(BadgeType.BIRTHDAY)
                 }
             }
             if (!item.statusMessage.isBlank()) {
@@ -58,7 +58,7 @@ fun FriendItem(
 
         if (!item.music.isNullOrBlank()) {
             Spacer(modifier = Modifier.width(8.dp))
-            MusicBadge(text = item.music)
+            Badge(BadgeType.MUSIC, text = item.music)
         }
     }
 }
