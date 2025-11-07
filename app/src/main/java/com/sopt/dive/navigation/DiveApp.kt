@@ -24,8 +24,11 @@ fun DiveApp(userInfo: UserInfo) {
     var loginId by rememberSaveable { mutableStateOf("") }
     var loginPw by rememberSaveable { mutableStateOf("") }
 
-    NavHost(navController = navController, startDestination = "signin") {
-        composable("signin") {
+    NavHost(
+        navController = navController,
+        startDestination = Route.SignIn.route
+    ) {
+        composable(Route.SignIn.route) {
             SignInScreen(
                 id = loginId,
                 onIdChange = { loginId = it },
@@ -39,7 +42,9 @@ fun DiveApp(userInfo: UserInfo) {
                             Toast.LENGTH_SHORT
                         ).show()
                     } else if (userInfo.validateLogin(loginId, loginPw)) {
-                        navController.navigate("main") { popUpTo("signin") { inclusive = true } }
+                        navController.navigate(Route.Main.route) {
+                            popUpTo(Route.SignIn.route) { inclusive = true }
+                        }
                     } else {
                         Toast.makeText(
                             context,
@@ -48,11 +53,11 @@ fun DiveApp(userInfo: UserInfo) {
                         ).show()
                     }
                 },
-                onSignUpClick = { navController.navigate("signup") }
+                onSignUpClick = { navController.navigate(Route.SignUp.route) }
             )
         }
 
-        composable("signup") {
+        composable(Route.SignUp.route) {
             var id by rememberSaveable { mutableStateOf("") }
             var pw by rememberSaveable { mutableStateOf("") }
             var nickname by rememberSaveable { mutableStateOf("") }
@@ -76,7 +81,7 @@ fun DiveApp(userInfo: UserInfo) {
             )
         }
 
-        composable("main") {
+        composable(Route.Main.route) {
             DiveMainNav(userInfo = userInfo)
         }
     }
