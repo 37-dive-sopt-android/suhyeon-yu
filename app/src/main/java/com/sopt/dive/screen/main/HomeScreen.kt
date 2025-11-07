@@ -41,7 +41,8 @@ fun HomeScreen(userInfo: UserInfo) {
                }
                is HomeListItem.FriendRow -> {
                    FriendItem(item = item)
-                   HorizontalDivider(thickness = 0.5.dp)
+                   if (index != items.lastIndex)
+                       HorizontalDivider(thickness = 0.5.dp)
                }
            }
        }

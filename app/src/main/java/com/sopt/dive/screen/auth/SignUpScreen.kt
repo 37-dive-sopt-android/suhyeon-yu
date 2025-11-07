@@ -28,7 +28,7 @@ fun SignUpScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 40.dp, vertical = 40.dp),
+            .padding(40.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Title(stringResource(R.string.signup_title))

@@ -12,7 +12,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sopt.dive.R
 import com.sopt.dive.model.UserInfo
-import com.sopt.dive.screen.main.MyPageScreen
 import com.sopt.dive.screen.auth.SignInScreen
 import com.sopt.dive.screen.auth.SignUpScreen
 import com.sopt.dive.util.SignUpValidator
@@ -74,15 +73,6 @@ fun DiveApp(userInfo: UserInfo) {
                         navController.popBackStack()
                     }
                 }
-            )
-        }
-
-        composable("mypage") {
-            MyPageScreen(
-                id = userInfo.id,
-                password = userInfo.password,
-                nickname = userInfo.nickname,
-                etc = userInfo.etc
             )
         }
 

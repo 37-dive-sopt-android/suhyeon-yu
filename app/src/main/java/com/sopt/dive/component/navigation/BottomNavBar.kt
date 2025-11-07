@@ -1,7 +1,6 @@
 package com.sopt.dive.component.navigation
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -13,13 +12,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.sopt.dive.navigation.TabItem
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
-fun BottomNavBar(navController: androidx.navigation.NavHostController) {
+fun BottomNavBar(navController: NavHostController) {
     val tabs = listOf(
         TabItem.Home,
         TabItem.Search,
@@ -31,7 +31,6 @@ fun BottomNavBar(navController: androidx.navigation.NavHostController) {
         containerColor = Color.White,
         tonalElevation = 4.dp,
         modifier = Modifier
-            .height(80.dp)
             .shadow(4.dp)
     ) {
         tabs.forEach { tab ->
@@ -50,7 +49,7 @@ fun BottomNavBar(navController: androidx.navigation.NavHostController) {
                         painter = painterResource(id = tab.iconRes),
                         contentDescription = tab.label,
                         modifier = Modifier
-                            .size(if (selected) 28.dp else 24.dp)
+                            .size( if (selected) 28.dp else 24.dp)
                     )
                 },
                 alwaysShowLabel = true,
@@ -64,7 +63,7 @@ fun BottomNavBar(navController: androidx.navigation.NavHostController) {
 
 @Preview(showBackground = true)
 @Composable
-fun BottomNavBarPreview() {
+private fun BottomNavBarPreview() {
     val navController = rememberNavController()
     DiveTheme {
         BottomNavBar(navController = navController)

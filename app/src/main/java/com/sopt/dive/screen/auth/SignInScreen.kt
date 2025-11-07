@@ -28,7 +28,7 @@ fun SignInScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 40.dp, vertical = 40.dp),
+            .padding(40.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Title(text = stringResource(R.string.login_title))
@@ -60,7 +60,7 @@ fun SignInScreen(
         )
 
         TextButton(onClick = onSignUpClick) {
-            Text(stringResource(R.string.signup_button), color = Color.Gray)
+            Text(text = stringResource(R.string.signup_button), color = Color.Gray)
         }
     }
 }

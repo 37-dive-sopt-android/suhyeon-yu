@@ -1,7 +1,13 @@
 package com.sopt.dive.screen.main
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +35,7 @@ fun MyPageScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 40.dp, vertical = 40.dp),
+            .padding(40.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // profile image
@@ -57,12 +63,11 @@ fun MyPageScreen(
         Column(
             modifier = Modifier
                 .align(Alignment.Start)
-                .padding(start = 10.dp)
+                .padding(start = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             InfoItem(title = stringResource(R.string.id_label), value = id)
-            Spacer(modifier = Modifier.height(20.dp))
             InfoItem(title = stringResource(R.string.pw_label), value = password)
-            Spacer(modifier = Modifier.height(20.dp))
             InfoItem(title = stringResource(R.string.etc_label), value = etc)
             Spacer(modifier = Modifier.weight(1f))
         }
