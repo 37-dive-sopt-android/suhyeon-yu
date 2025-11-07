@@ -19,10 +19,10 @@ fun DiveApp(userInfo: UserInfo) {
 
     NavHost(
         navController = navController,
-        startDestination = Route.SignIn
+        startDestination = Route.SignIn.route
     ) {
         // 로그인 화면
-        composable<Route.SignIn> {
+        composable(Route.SignIn.route) {
             SignInScreen(
                 onLoginClick = { id, pw ->
                     when {
@@ -35,8 +35,8 @@ fun DiveApp(userInfo: UserInfo) {
                         }
 
                         userInfo.validateLogin(id, pw) -> {
-                            navController.navigate(Route.Main) {
-                                popUpTo(Route.SignIn) { inclusive = true }
+                            navController.navigate(Route.Main.route) {
+                                popUpTo(Route.SignIn.route) { inclusive = true }
                             }
                         }
 
@@ -49,12 +49,12 @@ fun DiveApp(userInfo: UserInfo) {
                         }
                     }
                 },
-                onSignUpClick = { navController.navigate(Route.SignUp) }
+                onSignUpClick = { navController.navigate(Route.SignUp.route) }
             )
         }
 
         // 회원가입 화면
-        composable<Route.SignUp> {
+        composable(Route.SignUp.route) {
             SignUpScreen(
                 onSignUpClick = { newId, newPw, newNickname, newEtc ->
                     if (SignUpValidator.validate(context, newId, newPw, newNickname, newEtc)) {
@@ -66,9 +66,8 @@ fun DiveApp(userInfo: UserInfo) {
         }
 
         // 메인 화면 NavController 전달
-        composable<Route.Main> {
+        composable(Route.Main.route) {
             DiveMainNav(
-                navController = navController,
                 userInfo = userInfo
             )
         }
