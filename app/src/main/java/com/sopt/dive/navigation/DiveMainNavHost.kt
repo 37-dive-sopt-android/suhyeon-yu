@@ -6,9 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.sopt.dive.model.UserInfo
-import com.sopt.dive.screen.main.HomeScreen
-import com.sopt.dive.screen.main.MyPageScreen
-import com.sopt.dive.screen.main.SearchScreen
+import com.sopt.dive.screen.home.HomeScreen
+import com.sopt.dive.screen.mypage.MyPageScreen
+import com.sopt.dive.screen.search.SearchScreen
 
 @Composable
 fun DiveMainNavHost(

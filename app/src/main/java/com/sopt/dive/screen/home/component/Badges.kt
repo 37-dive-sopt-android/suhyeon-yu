@@ -1,4 +1,4 @@
-package com.sopt.dive.component.item
+package com.sopt.dive.screen.home.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box

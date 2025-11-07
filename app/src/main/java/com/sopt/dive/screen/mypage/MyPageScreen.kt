@@ -1,4 +1,4 @@
-package com.sopt.dive.screen.main
+package com.sopt.dive.screen.mypage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.component.item.InfoItem
+import com.sopt.dive.screen.mypage.component.InfoItem
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
