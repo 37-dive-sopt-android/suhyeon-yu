@@ -2,6 +2,9 @@ package com.sopt.dive.navigation
 
 import androidx.annotation.DrawableRes
 import com.sopt.dive.R
+import com.sopt.dive.screen.home.navigation.Home
+import com.sopt.dive.screen.mypage.navigation.MyPage
+import com.sopt.dive.screen.search.navigation.Search
 
 enum class NavBarDestination(
     val route: Route,

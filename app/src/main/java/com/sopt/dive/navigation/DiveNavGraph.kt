@@ -5,10 +5,15 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.sopt.dive.model.UserInfo
 import com.sopt.dive.screen.home.HomeScreen
+import com.sopt.dive.screen.home.navigation.Home
 import com.sopt.dive.screen.mypage.MyPageScreen
+import com.sopt.dive.screen.mypage.navigation.MyPage
 import com.sopt.dive.screen.search.SearchScreen
+import com.sopt.dive.screen.search.navigation.Search
 import com.sopt.dive.screen.signin.SignInScreen
+import com.sopt.dive.screen.signin.navigation.SignIn
 import com.sopt.dive.screen.signup.SignUpScreen
+import com.sopt.dive.screen.signup.navigation.SignUp
 
 fun NavGraphBuilder.diveNavGraph(
     navController: NavController,

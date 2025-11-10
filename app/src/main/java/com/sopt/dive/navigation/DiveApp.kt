@@ -9,6 +9,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.sopt.dive.component.navigation.BottomNavBar
 import com.sopt.dive.model.UserInfo
+import com.sopt.dive.screen.signin.navigation.SignIn
 
 @Composable
 fun DiveApp(userInfo: UserInfo) {
