@@ -24,44 +24,16 @@ fun DiveApp(userInfo: UserInfo) {
         // 로그인 화면
         composable<Route.SignIn> {
             SignInScreen(
-                onLoginClick = { id, pw ->
-                    when {
-                        id.isBlank() || pw.isBlank() -> {
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.toast_login_fail),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-
-                        userInfo.validateLogin(id, pw) -> {
-                            navController.navigate(Route.Main) {
-                                popUpTo<Route.SignIn> { inclusive = true }
-                            }
-                        }
-
-                        else -> {
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.toast_login_fail),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                },
-                onSignUpClick = { navController.navigate(Route.SignUp) }
+                navController = navController,
+                userInfo = userInfo
             )
         }
 
         // 회원가입 화면
         composable<Route.SignUp> {
             SignUpScreen(
-                onSignUpClick = { newId, newPw, newNickname, newEtc ->
-                    if (SignUpValidator.validate(context, newId, newPw, newNickname, newEtc)) {
-                        userInfo.updateUser(newId, newPw, newNickname, newEtc)
-                        navController.popBackStack()
-                    }
-                }
+                navController = navController,
+                userInfo = userInfo
             )
         }
 

@@ -1,5 +1,6 @@
 package com.sopt.dive.screen.auth
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,20 +16,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.sopt.dive.R
 import com.sopt.dive.component.button.BasicButton
 import com.sopt.dive.component.text.LabeledTextField
 import com.sopt.dive.component.text.Title
+import com.sopt.dive.model.UserInfo
+import com.sopt.dive.navigation.Route
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun SignInScreen(
-    onLoginClick: (String, String) -> Unit,
-    onSignUpClick: () -> Unit
+    navController: NavController,
+    userInfo: UserInfo
 ) {
+    val context = LocalContext.current
     var id by rememberSaveable { mutableStateOf("")}
     var password by rememberSaveable { mutableStateOf("")}
 
@@ -63,11 +69,40 @@ fun SignInScreen(
 
         BasicButton(
             text = stringResource(R.string.login_button),
-            onClick = { onLoginClick(id, password) }
+            onClick = {
+                when {
+                    id.isBlank() || password.isBlank() -> {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.toast_login_fail),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    userInfo.validateLogin(id, password) -> {
+                        navController.navigate(Route.Main) {
+                            popUpTo<Route.SignIn> { inclusive = true }
+                        }
+                    }
+
+                    else -> {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.toast_login_fail),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
         )
 
-        TextButton(onClick = onSignUpClick) {
-            Text(text = stringResource(R.string.signup_button), color = Color.Gray)
+        TextButton(onClick = {
+            navController.navigate(Route.SignUp)
+        }) {
+            Text(
+                text = stringResource(R.string.signup_button),
+                color = Color.Gray
+            )
         }
     }
 }
@@ -76,9 +111,5 @@ fun SignInScreen(
 @Composable
 private fun SignInScreenPreview() {
     DiveTheme {
-        SignInScreen(
-            onLoginClick = { _, _ -> },
-            onSignUpClick = {}
-        )
     }
 }
