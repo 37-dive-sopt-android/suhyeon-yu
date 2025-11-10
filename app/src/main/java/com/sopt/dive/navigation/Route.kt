@@ -1,7 +1,15 @@
 package com.sopt.dive.navigation
 
-sealed class Route(val route: String) {
-    object SignIn : Route("signin")
-    object SignUp : Route("signup")
-    object Main : Route("main")
+import kotlinx.serialization.Serializable
+
+@Serializable
+sealed class Route {
+    @Serializable
+    data object SignIn : Route()
+
+    @Serializable
+    data object SignUp : Route()
+
+    @Serializable
+    data object Main : Route()
 }
