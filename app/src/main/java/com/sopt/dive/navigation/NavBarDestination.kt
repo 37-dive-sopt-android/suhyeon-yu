@@ -3,14 +3,14 @@ package com.sopt.dive.navigation
 import androidx.annotation.DrawableRes
 import com.sopt.dive.R
 
-enum class TabItem(
-    val route: String,
+enum class NavBarDestination(
+    val route: Route,
     @DrawableRes val iconRes: Int,
     val label: String
 ) {
-    HOME("home", R.drawable.ic_home, "Home"),
-    SEARCH("search", R.drawable.ic_search, "Search"),
-    MY("my", R.drawable.ic_my, "My");
+    HOME(Home, R.drawable.ic_home, "Home"),
+    SEARCH(Search, R.drawable.ic_search, "Search"),
+    MY(MyPage, R.drawable.ic_my, "My");
 }
 
 

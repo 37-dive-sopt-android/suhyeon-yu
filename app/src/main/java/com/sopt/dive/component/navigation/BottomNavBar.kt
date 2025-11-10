@@ -16,15 +16,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.sopt.dive.navigation.TabItem
+import com.sopt.dive.navigation.NavBarDestination
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun BottomNavBar(navController: NavHostController) {
     val tabs = listOf(
-        TabItem.HOME,
-        TabItem.SEARCH,
-        TabItem.MY
+        NavBarDestination.HOME,
+        NavBarDestination.SEARCH,
+        NavBarDestination.MY
     )
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
@@ -36,7 +36,7 @@ fun BottomNavBar(navController: NavHostController) {
             .shadow(4.dp)
     ) {
         tabs.forEach { tab ->
-            val selected = currentRoute == tab.route
+            val selected = currentRoute?.contains(tab.route::class.simpleName ?: "") == true
             NavigationBarItem(
                 selected = selected,
                 onClick = {
