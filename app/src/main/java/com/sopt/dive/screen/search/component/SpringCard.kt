@@ -6,7 +6,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -14,11 +18,12 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.sopt.dive.R
 
 @Composable
 fun SpringCard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    frontResId: Int,
+    backResId: Int,
 ) {
     var isFlipped by remember { mutableStateOf(false) }
 
@@ -44,14 +49,14 @@ fun SpringCard(
         if (rotationAngleY <= 90f) {
             // 앞면이 위에 있을 때
             Image(
-                painter = painterResource(id = R.drawable.img_card_back),
+                painter = painterResource(backResId),
                 contentDescription = "Card Back",
                 modifier = Modifier
                     .matchParentSize()
                     .clip(backShape)
             )
             Image(
-                painter = painterResource(id = R.drawable.img_card_front),
+                painter = painterResource(frontResId),
                 contentDescription = "Card Front",
                 modifier = Modifier
                     .matchParentSize()
@@ -67,7 +72,7 @@ fun SpringCard(
         } else {
             // 뒷면이 위에 있을 때
             Image(
-                painter = painterResource(id = R.drawable.img_card_front),
+                painter = painterResource(frontResId),
                 contentDescription = "Card Front",
                 modifier = Modifier
                     .matchParentSize()
@@ -81,7 +86,7 @@ fun SpringCard(
                     .clip(frontShape)
             )
             Image(
-                painter = painterResource(id = R.drawable.img_card_back),
+                painter = painterResource(backResId),
                 contentDescription = "Card Back",
                 modifier = Modifier
                     .matchParentSize()
