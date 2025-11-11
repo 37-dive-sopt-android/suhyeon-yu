@@ -10,11 +10,11 @@ import androidx.compose.ui.res.painterResource
 
 @Composable
 fun FlippableCard(
-    modifier: Modifier = Modifier,
     rotationYDeg: Float,
     showBack: Boolean,
     frontResId: Int,
-    backResId: Int
+    backResId: Int,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier,
@@ -27,8 +27,7 @@ fun FlippableCard(
             modifier = Modifier
                 .matchParentSize()
                 .graphicsLayer {
-                    val base = if (showBack) 180f else 0f
-                    rotationY = base + rotationYDeg
+                    rotationY = rotationYDeg
                     alpha = if (showBack) 0f else 1f
                     cameraDistance = 12 * density
                 }
@@ -41,8 +40,7 @@ fun FlippableCard(
             modifier = Modifier
                 .matchParentSize()
                 .graphicsLayer {
-                    val base = if (showBack) 0f else 180f
-                    rotationY = base + rotationYDeg
+                    rotationY = rotationYDeg + 180f
                     alpha = if (showBack) 1f else 0f
                     cameraDistance = 12 * density
                 }
