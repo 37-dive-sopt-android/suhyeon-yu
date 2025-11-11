@@ -36,17 +36,25 @@ fun SpringCard(
 
     // 둥근 모서리 정의
     val frontShape = RoundedCornerShape(
-        topStart = 8.dp, topEnd = 50.dp, bottomStart = 50.dp, bottomEnd = 8.dp
+        topStart = 8.dp,
+        topEnd = 80.dp,
+        bottomStart = 80.dp,
+        bottomEnd = 8.dp
     )
     val backShape = RoundedCornerShape(
-        topStart = 50.dp, topEnd = 8.dp, bottomStart = 8.dp, bottomEnd = 50.dp
+        topStart = 80.dp,
+        topEnd = 8.dp,
+        bottomStart = 8.dp,
+        bottomEnd = 80.dp
     )
+
+    val frontVisible = rotationAngleY <= 90f
 
     Box(
         modifier = modifier.clickable { isFlipped = !isFlipped },
         contentAlignment = Alignment.Center
     ) {
-        if (rotationAngleY <= 90f) {
+        if (frontVisible) {
             // 앞면이 위에 있을 때
             Image(
                 painter = painterResource(backResId),
