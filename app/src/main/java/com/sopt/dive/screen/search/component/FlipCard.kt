@@ -1,6 +1,7 @@
 package com.sopt.dive.screen.search.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -9,15 +10,16 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 
 @Composable
-fun FlippableCard(
+fun FlipCard(
     rotationYDeg: Float,
     showBack: Boolean,
     frontResId: Int,
     backResId: Int,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier,
+        modifier = modifier.clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         // 앞면
