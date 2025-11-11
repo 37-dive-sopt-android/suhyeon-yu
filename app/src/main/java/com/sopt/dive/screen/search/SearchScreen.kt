@@ -3,14 +3,14 @@ package com.sopt.dive.screen.search
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
 import com.sopt.dive.component.button.BasicButton
 import com.sopt.dive.screen.search.component.FlippableCard
+import com.sopt.dive.screen.search.component.SpringCard
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
@@ -45,21 +46,31 @@ fun SearchScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
 
-        Spacer(modifier = Modifier.height(50.dp))
-
-        FlippableCard(
-            modifier = Modifier
-                .fillMaxWidth(0.7f)
-                .aspectRatio(260f/380f)
-                .align(Alignment.CenterHorizontally),
-            rotationYDeg = rotationYDeg,
-            showBack = showBack,
-            frontResId = R.drawable.img_card_front,
-            backResId = R.drawable.img_card_back
-        )
+       Row(
+           modifier = Modifier.fillMaxWidth(),
+           horizontalArrangement = Arrangement.SpaceEvenly,
+           verticalAlignment = Alignment.CenterVertically
+       ) {
+           FlippableCard(
+               modifier = Modifier
+                   .fillMaxWidth(0.4f)
+                   .aspectRatio(260f / 380f),
+               rotationYDeg = rotationYDeg,
+               showBack = showBack,
+               frontResId = R.drawable.img_card_front,
+               backResId = R.drawable.img_card_back
+           )
+           SpringCard(
+               modifier = Modifier
+                   .fillMaxWidth(0.4f)
+                   .aspectRatio(260f / 380f)
+           )
+       }
 
         Spacer(modifier = Modifier.weight(1f))
 
@@ -70,7 +81,6 @@ fun SearchScreen() {
                 singleRotation += 180f
             },
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
                 .padding(bottom = 40.dp)
         )
     }
