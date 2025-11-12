@@ -48,7 +48,7 @@ fun SearchScreen() {
 
         FlipCard(
             modifier = Modifier
-                .fillMaxWidth(0.4f)
+                .fillMaxWidth(0.6f)
                 .aspectRatio(260f / 380f),
             rotationYDeg = rotationYDeg,
             showBack = showBack,
@@ -61,10 +61,10 @@ fun SearchScreen() {
         Spacer(modifier = Modifier.padding(20.dp))
         SpringCard(
             modifier = Modifier
-                .fillMaxWidth(0.4f)
-                .aspectRatio(260f / 380f),
+                .fillMaxWidth(0.6f)
+                .aspectRatio(200f / 200),
             frontResId = R.drawable.img_card_front,
-            backResId = R.drawable.img_card_back
+            backText = "안녕하세요솝트짱".repeat(100)
         )
     }
 }

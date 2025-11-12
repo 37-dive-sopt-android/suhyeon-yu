@@ -1,13 +1,13 @@
 package com.sopt.dive.screen.search.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import com.sopt.dive.util.noRippleClickable
 
 @Composable
 fun FlipCard(
@@ -19,7 +19,7 @@ fun FlipCard(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier.clickable { onClick() },
+        modifier = modifier.noRippleClickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         // 앞면

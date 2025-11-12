@@ -1,11 +1,14 @@
 package com.sopt.dive.screen.search.component
 
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,92 +17,99 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import com.sopt.dive.util.noRippleClickable
+
+private enum class FlipState { Front, Back }
 
 @Composable
 fun SpringCard(
     modifier: Modifier = Modifier,
     frontResId: Int,
-    backResId: Int,
+    backText: String,
 ) {
-    var isFlipped by remember { mutableStateOf(false) }
+    var flipState by remember { mutableStateOf(FlipState.Front) }
+
+    val transition = updateTransition(targetState = flipState, label = "flip-transition")
+
+    val springSpec = spring<Float>(stiffness = 177.8f, dampingRatio = 0.75f)
 
     // 회전 애니메이션
-    val rotationAngleY by animateFloatAsState(
-        targetValue = if (isFlipped) 180f else 0f,
-        animationSpec = spring(stiffness = 177.8f, dampingRatio = 0.75f),
-        label = "rotation"
-    )
+    val rotationAngleY by transition.animateFloat(
+        transitionSpec = { springSpec },
+        label = "rotationY"
+    ) { state ->
+        if (state == FlipState.Back) 180f else 0f
+    }
 
-    // 둥근 모서리 정의
+    // 뒷면 텍스트 투명도
+    val textAlpha by transition.animateFloat(
+        transitionSpec = { springSpec },
+        label = "textAlpha"
+    ) { state ->
+        if (state == FlipState.Back) 1f else 0f
+    }
+
     val frontShape = RoundedCornerShape(
-        topStart = 8.dp,
-        topEnd = 80.dp,
-        bottomStart = 80.dp,
-        bottomEnd = 8.dp
+        topStart = 20.dp,
+        topEnd = 100.dp,
+        bottomStart = 100.dp,
+        bottomEnd = 20.dp
     )
     val backShape = RoundedCornerShape(
-        topStart = 80.dp,
-        topEnd = 8.dp,
-        bottomStart = 8.dp,
-        bottomEnd = 80.dp
+        topStart = 100.dp,
+        topEnd = 20.dp,
+        bottomStart = 20.dp,
+        bottomEnd = 100.dp
     )
 
-    val frontVisible = rotationAngleY <= 90f
-
     Box(
-        modifier = modifier.clickable { isFlipped = !isFlipped },
+        modifier = modifier.noRippleClickable {
+            flipState = if (flipState == FlipState.Front) FlipState.Back else FlipState.Front
+        },
         contentAlignment = Alignment.Center
     ) {
-        if (frontVisible) {
-            // 앞면이 위에 있을 때
-            Image(
-                painter = painterResource(backResId),
-                contentDescription = "Card Back",
-                modifier = Modifier
-                    .matchParentSize()
-                    .clip(backShape)
-            )
-            Image(
-                painter = painterResource(frontResId),
-                contentDescription = "Card Front",
-                modifier = Modifier
-                    .matchParentSize()
-                    .graphicsLayer {
-                        rotationY = rotationAngleY
-                        cameraDistance = 12 * density
-                        translationX = if (isFlipped) 20f else 0f
-                        translationY = if (isFlipped) 20f else 0f
-                    }
-                    .zIndex(1f)
-                    .clip(frontShape)
-            )
-        } else {
-            // 뒷면이 위에 있을 때
-            Image(
-                painter = painterResource(frontResId),
-                contentDescription = "Card Front",
-                modifier = Modifier
-                    .matchParentSize()
-                    .graphicsLayer {
-                        rotationY = rotationAngleY
-                        cameraDistance = 12 * density
-                        translationX = if (isFlipped) 20f else 0f
-                        translationY = if (isFlipped) 20f else 0f
-                    }
-                    .zIndex(0f)
-                    .clip(frontShape)
-            )
-            Image(
-                painter = painterResource(backResId),
-                contentDescription = "Card Back",
-                modifier = Modifier
-                    .matchParentSize()
-                    .clip(backShape)
+        // 뒷면 -> 텍스트
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(backShape)
+                .background(Color(0xFFA8E39A))
+                .graphicsLayer {
+                    clip = true
+                    alpha = textAlpha
+                },
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = backText,
+                fontSize = 10.sp,
+                color = Color.Black,
+                textAlign = TextAlign.Center,
+                lineHeight = 15.sp,
             )
         }
+
+        // 앞면 -> 이미지
+        Image(
+            painter = painterResource(frontResId),
+            contentDescription = "Card Front",
+            modifier = Modifier
+                .matchParentSize()
+                .graphicsLayer {
+                    rotationY = rotationAngleY
+                    cameraDistance = 24 * density
+                    translationX = if (flipState == FlipState.Back) 20f else 0f
+                    translationY = if (flipState == FlipState.Back) 20f else 0f
+                }
+                .zIndex(if (rotationAngleY <= 90f) 1f else -1f)
+                .clip(frontShape)
+        )
     }
 }
