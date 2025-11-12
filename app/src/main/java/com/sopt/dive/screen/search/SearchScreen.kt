@@ -58,11 +58,14 @@ fun SearchScreen() {
                 singleRotation += 180f
             }
         )
-        Spacer(modifier = Modifier.padding(20.dp))
+
+        Spacer(modifier = Modifier.padding(5.dp))
+
         SpringCard(
             modifier = Modifier
                 .fillMaxWidth(0.6f)
-                .aspectRatio(200f / 200),
+                .aspectRatio(200f / 200)
+            ,
             frontResId = R.drawable.img_card_front,
             backText = "안녕하세요솝트짱".repeat(100)
         )

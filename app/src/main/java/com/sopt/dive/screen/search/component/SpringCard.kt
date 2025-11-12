@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,10 +18,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -79,6 +82,12 @@ fun SpringCard(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .shadow(
+                    elevation = if (rotationAngleY > 20f) 20.dp else 0.dp,
+                    shape = backShape,
+                    ambientColor = Color.Black.copy(alpha = 0.8f),
+                    spotColor = Color.Black.copy(alpha = 0.8f),
+                )
                 .clip(backShape)
                 .background(Color(0xFFA8E39A))
                 .graphicsLayer {
@@ -102,14 +111,38 @@ fun SpringCard(
             contentDescription = "Card Front",
             modifier = Modifier
                 .matchParentSize()
+                .offset {
+                    val offsetPx = if (flipState == FlipState.Back) 20.dp.roundToPx() else 0
+                    IntOffset(offsetPx, offsetPx)
+                }
+                // 그림자
+                .shadow(
+                    elevation = if (rotationAngleY <= 20f) 20.dp else 0.dp,
+                    shape = frontShape,
+                    ambientColor = Color.Black.copy(alpha = 0.8f),
+                    spotColor = Color.Black.copy(alpha = 0.8f),
+                )
                 .graphicsLayer {
                     rotationY = rotationAngleY
-                    cameraDistance = 24 * density
-                    translationX = if (flipState == FlipState.Back) 20f else 0f
-                    translationY = if (flipState == FlipState.Back) 20f else 0f
+                    cameraDistance = 12 * density
+                    shape = frontShape // clip 대신 여기에 shape 설정
+                    clip = true // 그래픽 레벨에서 잘라내기
+
+                    //translationX = if (flipState == FlipState.Back) 20f else 0f
+                    //translationY = if (flipState == FlipState.Back) 20f else 0f
+                    // -> 이걸로 하면 이만큼 위가 잘리는 현상 발생 -> offset 사용해야 함
                 }
                 .zIndex(if (rotationAngleY <= 90f) 1f else -1f)
-                .clip(frontShape)
         )
     }
 }
+
+// shadow -> 그림자 외곽 가장 먼저 적용
+// clip -> 카드 모양 자르기
+// background -> 배경
+// graphicsLayer -> 회전, 투명도 등 애니메이션 처리
+
+// 회전할 때 안에 있는 사진만 회전하고 모양은 회전하지 않는 문제
+// -> compose는 graphicsLayer -> clip 순서로 처리
+// 즉 이미지 회전은 graphicsLayer에서 발생 -> 모양 자르기는 그 다음
+// == clip을 graphphicsLayer 안쪽으로 옮기면 해결 가능
