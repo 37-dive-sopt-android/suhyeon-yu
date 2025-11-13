@@ -11,9 +11,18 @@ enum class NavBarDestination(
     @DrawableRes val iconRes: Int,
     val label: String
 ) {
-    HOME(Home, R.drawable.ic_home, "Home"),
-    SEARCH(Search, R.drawable.ic_search, "Search"),
-    MY(MyPage, R.drawable.ic_my, "My");
+    HOME(
+        route = Home,
+        iconRes = R.drawable.ic_home,
+        label = "Home"),
+    SEARCH(
+        route = Search,
+        iconRes = R.drawable.ic_search,
+        label = "Search"),
+    MY(
+        route = MyPage,
+        iconRes = R.drawable.ic_my,
+        label = "My");
 }
 
 

@@ -18,6 +18,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.sopt.dive.navigation.NavBarDestination
+import com.sopt.dive.screen.home.navigation.Home
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
@@ -42,7 +43,9 @@ fun BottomNavBar(navController: NavHostController) {
                 selected = selected,
                 onClick = {
                     navController.navigate(tab.route) {
-                        popUpTo(navController.graph.startDestinationId) { saveState = true }
+                        popUpTo<Home> { saveState = true }
+                        // <Home>은 Home destination을 popUpTo 기준점으로 삼겠다는 뜻
+                        // = Home을 스택의 root로 삼고 그 아래 쌓인 화면은 전부 제거
                         launchSingleTop = true
                         restoreState = true
                     }
