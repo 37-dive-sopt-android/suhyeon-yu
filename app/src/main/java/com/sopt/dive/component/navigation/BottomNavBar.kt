@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -26,7 +27,7 @@ fun BottomNavBar(navController: NavHostController) {
         NavBarDestination.SEARCH,
         NavBarDestination.MY
     )
-    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+    val currentDestination = navController.currentBackStackEntryAsState().value?.destination
 
     NavigationBar(
         containerColor = Color.White,
@@ -36,7 +37,7 @@ fun BottomNavBar(navController: NavHostController) {
             .shadow(4.dp)
     ) {
         tabs.forEach { tab ->
-            val selected = currentRoute?.contains(tab.route::class.simpleName ?: "") == true
+            val selected = currentDestination?.hasRoute(tab.route::class) == true
             NavigationBarItem(
                 selected = selected,
                 onClick = {
