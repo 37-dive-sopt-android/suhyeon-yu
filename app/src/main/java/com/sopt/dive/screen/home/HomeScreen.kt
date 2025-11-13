@@ -13,19 +13,18 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.component.text.SectionTitle
 import com.sopt.dive.model.HomeListItem
-import com.sopt.dive.model.UserInfo
 import com.sopt.dive.screen.home.component.FriendItem
 import com.sopt.dive.screen.home.component.MyProfileItem
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun HomeScreen(
-    userInfo: UserInfo,
+    userId: String,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel()
 ) {
     LaunchedEffect(Unit) {
-        viewModel.loadHomeItems(userInfo)
+        viewModel.loadHomeItems(userId)
     }
 
     val items = viewModel.homeItems
@@ -65,12 +64,7 @@ fun HomeScreen(
 private fun HomeScreenPreview() {
     DiveTheme {
         HomeScreen(
-            userInfo = UserInfo(
-                id = "ddd",
-                password = "ddd",
-                nickname = "SUHYEON",
-                etc = "0"
-            )
+            userId = "sampleUserId"
         )
     }
 }
