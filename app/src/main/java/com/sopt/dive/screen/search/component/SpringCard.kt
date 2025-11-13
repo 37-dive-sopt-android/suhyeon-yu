@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -111,10 +109,6 @@ fun SpringCard(
             contentDescription = "Card Front",
             modifier = Modifier
                 .matchParentSize()
-                .offset {
-                    val offsetPx = if (flipState == FlipState.Back) 20.dp.roundToPx() else 0
-                    IntOffset(offsetPx, offsetPx)
-                }
                 // 그림자
                 .shadow(
                     elevation = if (rotationAngleY <= 20f) 20.dp else 0.dp,
@@ -127,10 +121,8 @@ fun SpringCard(
                     cameraDistance = 12 * density
                     shape = frontShape // clip 대신 여기에 shape 설정
                     clip = true // 그래픽 레벨에서 잘라내기
-
-                    //translationX = if (flipState == FlipState.Back) 20f else 0f
-                    //translationY = if (flipState == FlipState.Back) 20f else 0f
-                    // -> 이걸로 하면 이만큼 위가 잘리는 현상 발생 -> offset 사용해야 함
+                    translationX = if (flipState == FlipState.Back) 20f else 0f
+                    translationY = if (flipState == FlipState.Back) 20f else 0f
                 }
                 .zIndex(if (rotationAngleY <= 90f) 1f else -1f)
         )
