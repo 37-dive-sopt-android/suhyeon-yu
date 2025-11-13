@@ -2,6 +2,7 @@ package com.sopt.dive.screen.mypage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,27 +23,45 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.screen.mypage.component.InfoItem
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun MyPageScreen(
-    id: String,
-    password: String,
-    nickname: String,
-    etc: String
+    id: String
 ) {
+    val viewModel: MyPageViewModel = viewModel()
+    val userInfoResponse = viewModel.userInfoState.value
+    val user = userInfoResponse?.data  // data만
+
+    // 화면 진입 시 서버 데이터 요청
+    LaunchedEffect(Unit) {
+        viewModel.loadUserInfo(id)
+    }
+
+    // 로딩 중
+    if (user == null) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = stringResource(R.string.info_loading))
+        }
+        return
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(40.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // profile image
+        // 프로필 이미지
         Image(
             painter = painterResource(id = R.drawable.profile),
-            contentDescription = "${nickname}의 프로필 이미지",
+            contentDescription = "${user.name}의 프로필 이미지",
             modifier = Modifier
                 .size(120.dp)
                 .clip(CircleShape),
@@ -50,25 +70,26 @@ fun MyPageScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // nickname
+        // 유저 이름
         Text(
-            text = nickname,
+            text = user.name,
             fontSize = 40.sp,
             fontWeight = FontWeight.Bold
         )
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        // info items
+        // 항목 리스트
         Column(
             modifier = Modifier
                 .align(Alignment.Start)
                 .padding(start = 10.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            InfoItem(title = stringResource(R.string.id_label), value = id)
-            InfoItem(title = stringResource(R.string.pw_label), value = password)
-            InfoItem(title = stringResource(R.string.etc_label), value = etc)
+            InfoItem(title = stringResource(R.string.id_label), value = user.username)
+            InfoItem(title = stringResource(R.string.email_label), value = user.email)
+            InfoItem(title = stringResource(R.string.age_label), value = user.age.toString())
+            InfoItem(title = stringResource(R.string.status_label), value = user.status)
             Spacer(modifier = Modifier.weight(1f))
         }
     }
@@ -79,10 +100,7 @@ fun MyPageScreen(
 private fun MyPageScreenPreview() {
     DiveTheme {
         MyPageScreen(
-            id = "ddd",
-            password = "ddd",
-            nickname = "SUHYEON",
-            etc = "0"
+            id = "1"
         )
     }
 }
