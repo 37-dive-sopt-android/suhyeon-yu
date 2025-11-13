@@ -10,7 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
 object ApiFactory {
-    private val BASE_URL: String = BuildConfig.BASE_URL
+    private const val BASE_URL: String = BuildConfig.BASE_URL
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -26,11 +26,6 @@ object ApiFactory {
             .client(client)
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
             .build()
-    }
-
-    val json = Json {
-        ignoreUnknownKeys = true
-        isLenient = true
     }
 
     inline fun <reified T> create(): T = retrofit.create(T::class.java)
