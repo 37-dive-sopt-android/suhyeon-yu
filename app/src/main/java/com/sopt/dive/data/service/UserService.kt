@@ -1,6 +1,6 @@
 package com.sopt.dive.data.service
 
-import com.sopt.dive.data.dto.request.RequestLoginDto
+import com.sopt.dive.data.dto.request.RequestSignInDto
 import com.sopt.dive.data.dto.request.RequestSignUpDto
 import com.sopt.dive.data.dto.response.ResponseLoginDto
 import com.sopt.dive.data.dto.response.ResponseSignUpDto
@@ -15,7 +15,7 @@ interface UserService {
 
     @POST("/api/v1/auth/login")
     suspend fun login(
-        @Body request: RequestLoginDto
+        @Body request: RequestSignInDto
     ): ResponseLoginDto
 
     @POST("/api/v1/users")
