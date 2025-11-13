@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -35,8 +36,10 @@ fun SignInScreen(
     var id by rememberSaveable { mutableStateOf("")}
     var password by rememberSaveable { mutableStateOf("")}
 
-    if (loginState != null) {
-        onLoginSuccess(loginState.data.userId.toString())
+    LaunchedEffect(loginState) {
+        if (loginState != null) {
+            onLoginSuccess(loginState.data.userId.toString())
+        }
     }
 
     Column(
