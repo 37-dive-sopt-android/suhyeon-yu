@@ -24,7 +24,7 @@ fun BasicButton(
             containerColor = Color(0xFFFF0053),
             contentColor = Color.White
         ),
-        modifier = modifier // -> 외부 Modifier 그대로 사용
+        modifier = modifier
             .fillMaxWidth()
             .height(50.dp)
     ) {
