@@ -1,4 +1,4 @@
-package com.sopt.dive.component.item
+package com.sopt.dive.screen.mypage.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

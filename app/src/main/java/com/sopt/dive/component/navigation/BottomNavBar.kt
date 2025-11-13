@@ -13,20 +13,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.sopt.dive.navigation.TabItem
+import com.sopt.dive.navigation.NavBarDestination
+import com.sopt.dive.screen.home.navigation.Home
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun BottomNavBar(navController: NavHostController) {
     val tabs = listOf(
-        TabItem.HOME,
-        TabItem.SEARCH,
-        TabItem.MY
+        NavBarDestination.HOME,
+        NavBarDestination.SEARCH,
+        NavBarDestination.MY
     )
-    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+    val currentDestination = navController.currentBackStackEntryAsState().value?.destination
 
     NavigationBar(
         containerColor = Color.White,
@@ -36,12 +38,14 @@ fun BottomNavBar(navController: NavHostController) {
             .shadow(4.dp)
     ) {
         tabs.forEach { tab ->
-            val selected = currentRoute == tab.route
+            val selected = currentDestination?.hasRoute(tab.route::class) == true
             NavigationBarItem(
                 selected = selected,
                 onClick = {
                     navController.navigate(tab.route) {
-                        popUpTo(navController.graph.startDestinationId) { saveState = true }
+                        popUpTo<Home> { saveState = true }
+                        // <Home>은 Home destination을 popUpTo 기준점으로 삼겠다는 뜻
+                        // = Home을 스택의 root로 삼고 그 아래 쌓인 화면은 전부 제거
                         launchSingleTop = true
                         restoreState = true
                     }

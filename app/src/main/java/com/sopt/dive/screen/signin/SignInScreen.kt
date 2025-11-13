@@ -1,4 +1,4 @@
-package com.sopt.dive.screen.auth
+package com.sopt.dive.screen.signin
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,17 +16,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
-import com.sopt.dive.component.button.SignButton
+import com.sopt.dive.component.button.BasicButton
 import com.sopt.dive.component.text.LabeledTextField
 import com.sopt.dive.component.text.Title
-import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.model.UserInfo
 
 @Composable
 fun SignInScreen(
-    onLoginClick: (String, String) -> Unit,
+    userInfo: UserInfo,
+    onLoginSuccess: () -> Unit,
     onSignUpClick: () -> Unit
 ) {
     var id by rememberSaveable { mutableStateOf("")}
@@ -61,24 +61,17 @@ fun SignInScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        SignButton(
+        BasicButton(
             text = stringResource(R.string.login_button),
-            onClick = { onLoginClick(id, password) }
+            onClick = {
+                if (userInfo.validateLogin(id, password)) {
+                    onLoginSuccess()
+                }
+            }
         )
 
         TextButton(onClick = onSignUpClick) {
             Text(text = stringResource(R.string.signup_button), color = Color.Gray)
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun SignInScreenPreview() {
-    DiveTheme {
-        SignInScreen(
-            onLoginClick = { _, _ -> },
-            onSignUpClick = {}
-        )
     }
 }
