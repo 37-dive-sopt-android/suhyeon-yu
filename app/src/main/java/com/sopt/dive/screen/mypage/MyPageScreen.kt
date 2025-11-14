@@ -33,8 +33,8 @@ fun MyPageScreen(
     id: String
 ) {
     val viewModel: MyPageViewModel = viewModel()
-    val userInfoResponse = viewModel.userInfoState.value
-    val user = userInfoResponse?.data  // data만
+    val response = viewModel.userInfoState.value
+    val user = response?.data  // data만
 
     // 화면 진입 시 서버 데이터 요청
     LaunchedEffect(Unit) {
