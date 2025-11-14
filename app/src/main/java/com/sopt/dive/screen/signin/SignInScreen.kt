@@ -37,8 +37,9 @@ fun SignInScreen(
     var password by rememberSaveable { mutableStateOf("")}
 
     LaunchedEffect(loginState) {
-        if (loginState != null) {
-            onLoginSuccess(loginState.data.userId.toString())
+        val userId = loginState?.data?.userId
+        if (userId != null) {
+            onLoginSuccess(userId.toString())
         }
     }
 
