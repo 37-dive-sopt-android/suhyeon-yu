@@ -3,6 +3,7 @@ package com.sopt.dive.data
 import com.sopt.dive.R
 import com.sopt.dive.model.HomeListItem
 import com.sopt.dive.data.dto.response.ResponseUserInfoDto
+import com.sopt.dive.data.dto.response.ServerResponse
 
 object DummyData {
 
@@ -28,13 +29,12 @@ object DummyData {
         FriendRaw("라현","바이염", isBirthday = true),
     )
 
-    fun buildHomeItems(user: ResponseUserInfoDto): List<HomeListItem> {
+    fun buildHomeItems(user: ServerResponse<ResponseUserInfoDto>): List<HomeListItem> {
 
         val userData = user.data ?: return emptyList()
 
         val result = mutableListOf<HomeListItem>()
 
-        // My Profile Section
         result += HomeListItem.SectionHeader("내 프로필")
         result += HomeListItem.MyProfile(
             name = userData.name,
@@ -42,7 +42,6 @@ object DummyData {
             profileImage = R.drawable.profile
         )
 
-        // Friends Section
         result += HomeListItem.SectionHeader("친구 ${friends.size}명")
         result += friends.map { raw ->
             HomeListItem.FriendRow(
