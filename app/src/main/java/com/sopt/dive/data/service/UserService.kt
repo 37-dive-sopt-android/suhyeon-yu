@@ -16,7 +16,7 @@ interface UserService {
     @POST("/api/v1/auth/login")
     suspend fun login(
         @Body request: RequestSignInDto
-    ): ResponseLoginDto
+    ): ServerResponse<ResponseLoginDto>
 
     @POST("/api/v1/users")
     suspend fun signUp(
@@ -26,5 +26,5 @@ interface UserService {
     @GET("/api/v1/users/{id}")
     suspend fun getUserInfo(
         @Path("id") id: String
-    ): ResponseUserInfoDto
+    ): ServerResponse<ResponseUserInfoDto>
 }
