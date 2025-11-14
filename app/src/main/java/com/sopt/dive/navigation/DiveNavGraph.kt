@@ -3,7 +3,6 @@ package com.sopt.dive.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.sopt.dive.model.UserInfo
 import com.sopt.dive.screen.home.HomeScreen
 import com.sopt.dive.screen.home.navigation.Home
 import com.sopt.dive.screen.mypage.MyPageScreen
@@ -17,12 +16,13 @@ import com.sopt.dive.screen.signup.navigation.SignUp
 
 fun NavGraphBuilder.diveNavGraph(
     navController: NavController,
-    userInfo: UserInfo
 ) {
+    var userId = ""
+
     composable<SignIn> {
         SignInScreen(
-            userInfo = userInfo,
-            onLoginSuccess = {
+            onLoginSuccess = { returnId ->
+                userId = returnId // 서버에서 받은 id 저장
                 navController.navigate(Home) {
                     popUpTo(SignIn) { inclusive = true }
                 }
@@ -35,7 +35,6 @@ fun NavGraphBuilder.diveNavGraph(
 
     composable<SignUp> {
         SignUpScreen(
-            userInfo = userInfo,
             onSignUpSuccess = {
                 navController.popBackStack()
             }
@@ -44,7 +43,7 @@ fun NavGraphBuilder.diveNavGraph(
 
     composable<Home> {
         HomeScreen(
-            userInfo = userInfo
+            userId = userId
         )
     }
 
@@ -54,10 +53,7 @@ fun NavGraphBuilder.diveNavGraph(
 
     composable<MyPage> {
         MyPageScreen(
-            id = userInfo.id,
-            password = userInfo.password,
-            nickname = userInfo.nickname,
-            etc = userInfo.etc
+            id = userId
         )
     }
 }

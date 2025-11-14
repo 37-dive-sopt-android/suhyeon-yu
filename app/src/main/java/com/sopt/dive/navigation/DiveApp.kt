@@ -9,14 +9,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.sopt.dive.component.navigation.BottomNavBar
-import com.sopt.dive.model.UserInfo
 import com.sopt.dive.screen.home.navigation.Home
 import com.sopt.dive.screen.mypage.navigation.MyPage
 import com.sopt.dive.screen.search.navigation.Search
 import com.sopt.dive.screen.signin.navigation.SignIn
 
 @Composable
-fun DiveApp(userInfo: UserInfo) {
+fun DiveApp() {
     val navController = rememberNavController()
     val currentDestination = navController.currentBackStackEntryAsState().value?.destination
 
@@ -34,7 +33,7 @@ fun DiveApp(userInfo: UserInfo) {
             startDestination = SignIn,
             modifier = Modifier.padding(innerPadding)
         ) {
-            diveNavGraph(navController, userInfo)
+            diveNavGraph(navController)
         }
     }
 }

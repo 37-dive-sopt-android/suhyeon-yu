@@ -14,21 +14,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.component.button.BasicButton
 import com.sopt.dive.component.text.LabeledTextField
 import com.sopt.dive.component.text.Title
-import com.sopt.dive.model.UserInfo
 
 @Composable
 fun SignUpScreen(
-    userInfo: UserInfo,
     onSignUpSuccess: () -> Unit
 ) {
-    var id by rememberSaveable { mutableStateOf("") }
-    var pw by rememberSaveable { mutableStateOf("") }
-    var nickname by rememberSaveable { mutableStateOf("") }
-    var etc by rememberSaveable { mutableStateOf("") }
+    val viewModel: SignUpViewModel = viewModel()
+    val signUpState = viewModel.signUpState.value
+
+    if (signUpState != null) {
+        onSignUpSuccess()
+    }
+
+    var username by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+    var name by rememberSaveable { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
+    var age by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -43,8 +50,8 @@ fun SignUpScreen(
         LabeledTextField(
             label = stringResource(R.string.id_label),
             placeholder = stringResource(R.string.id_hint),
-            text = id,
-            onValueChange = { id = it }
+            text = username,
+            onValueChange = { username = it }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -52,8 +59,8 @@ fun SignUpScreen(
         LabeledTextField(
             label = stringResource(R.string.pw_label),
             placeholder = stringResource(R.string.pw_hint),
-            text = pw,
-            onValueChange = { pw = it },
+            text = password,
+            onValueChange = { password = it },
             isPassword = true
         )
 
@@ -62,17 +69,26 @@ fun SignUpScreen(
         LabeledTextField(
             label = stringResource(R.string.nickname_label),
             placeholder = stringResource(R.string.nickname_hint),
-            text = nickname,
-            onValueChange = { nickname = it }
+            text = name,
+            onValueChange = { name = it }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         LabeledTextField(
-            label = stringResource(R.string.etc_label),
-            placeholder = stringResource(R.string.etc_hint),
-            text = etc,
-            onValueChange = { etc = it }
+            label = stringResource(R.string.email_label),
+            placeholder = stringResource(R.string.email_hint),
+            text = email,
+            onValueChange = { email = it }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LabeledTextField(
+            label = stringResource(R.string.age_label),
+            placeholder = stringResource(R.string.age_hint),
+            text = age,
+            onValueChange = { age = it }
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -80,8 +96,23 @@ fun SignUpScreen(
         BasicButton(
             text = stringResource(R.string.signup_button),
             onClick = {
-                userInfo.updateUser(id, pw, nickname, etc)
-                onSignUpSuccess()
+                val parseAge = age.toIntOrNull()
+
+                if (username.isBlank() ||
+                    password.isBlank() ||
+                    name.isBlank() ||
+                    email.isBlank() ||
+                    parseAge == null
+                    ) {
+                    return@BasicButton
+                }
+                viewModel.signUp(
+                    username = username,
+                    password = password,
+                    name = name,
+                    email = email,
+                    age = parseAge
+                )
             }
         )
     }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -17,20 +18,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.component.button.BasicButton
 import com.sopt.dive.component.text.LabeledTextField
 import com.sopt.dive.component.text.Title
-import com.sopt.dive.model.UserInfo
+import com.sopt.dive.util.noRippleClickable
 
 @Composable
 fun SignInScreen(
-    userInfo: UserInfo,
-    onLoginSuccess: () -> Unit,
+    onLoginSuccess: (String) -> Unit,
     onSignUpClick: () -> Unit
 ) {
+    val viewModel: SignInViewModel = viewModel()
+    val loginState = viewModel.loginState.value
+
     var id by rememberSaveable { mutableStateOf("")}
     var password by rememberSaveable { mutableStateOf("")}
+
+    LaunchedEffect(loginState) {
+        val userId = loginState?.data?.userId
+        if (userId != null) {
+            onLoginSuccess(userId.toString())
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -64,10 +75,9 @@ fun SignInScreen(
         BasicButton(
             text = stringResource(R.string.login_button),
             onClick = {
-                if (userInfo.validateLogin(id, password)) {
-                    onLoginSuccess()
-                }
-            }
+                viewModel.login(id = id, pw = password)
+            },
+            modifier = Modifier.noRippleClickable { }
         )
 
         TextButton(onClick = onSignUpClick) {
