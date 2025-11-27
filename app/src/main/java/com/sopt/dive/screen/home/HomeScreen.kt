@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sopt.dive.R
 import com.sopt.dive.component.text.SectionTitle
 import com.sopt.dive.model.HomeListItem
 import com.sopt.dive.screen.home.component.FriendItem
@@ -18,7 +19,7 @@ import com.sopt.dive.screen.home.component.MyProfileItem
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
-fun HomeScreen(
+fun HomeRoute(
     userId: String,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel()
@@ -29,6 +30,17 @@ fun HomeScreen(
 
     val items = viewModel.homeItems
 
+    HomeScreen(
+        items = items,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun HomeScreen(
+    items: List<HomeListItem>,
+    modifier: Modifier = Modifier
+) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -64,7 +76,22 @@ fun HomeScreen(
 private fun HomeScreenPreview() {
     DiveTheme {
         HomeScreen(
-            userId = "sampleUserId"
+            items = listOf(
+                HomeListItem.SectionHeader(title = "내 프로필"),
+                HomeListItem.MyProfile(name = "수현", statusMessage = "안뇽", R.drawable.profile),
+                HomeListItem.SectionHeader(title = "친구"),
+                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
+                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
+                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
+                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
+                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
+                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
+                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
+                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
+                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
+                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
+                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile)
+                )
         )
     }
 }
