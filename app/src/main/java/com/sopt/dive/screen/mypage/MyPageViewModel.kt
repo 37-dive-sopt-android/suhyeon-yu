@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class MyPageViewModel : ViewModel() {
     private val repo = UserRepository()
 
-    var userInfoState = mutableStateOf< ServerResponse<ResponseUserInfoDto>?>(null)
+    var userInfoState = mutableStateOf<ServerResponse<ResponseUserInfoDto>?>(null)
         private set
 
     fun loadUserInfo(id: String) {

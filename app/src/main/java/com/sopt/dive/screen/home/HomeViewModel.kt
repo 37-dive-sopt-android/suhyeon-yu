@@ -16,10 +16,9 @@ class HomeViewModel : ViewModel() {
     var homeItems by mutableStateOf<List<HomeListItem>>(emptyList())
         private set
 
-    fun loadHomeItems(userId: String) {
+    fun loadHomeItems(userId: String) =
         viewModelScope.launch {
             val userInfo = repo.getUserInfo(userId)
             homeItems = DummyData.buildHomeItems(userInfo)
         }
-    }
 }
