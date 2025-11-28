@@ -3,7 +3,7 @@ package com.sopt.dive.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.sopt.dive.screen.home.HomeScreen
+import com.sopt.dive.screen.home.HomeRoute
 import com.sopt.dive.screen.home.navigation.Home
 import com.sopt.dive.screen.mypage.MyPageScreen
 import com.sopt.dive.screen.mypage.navigation.MyPage
@@ -42,7 +42,7 @@ fun NavGraphBuilder.diveNavGraph(
     }
 
     composable<Home> {
-        HomeScreen(
+        HomeRoute(
             userId = userId
         )
     }

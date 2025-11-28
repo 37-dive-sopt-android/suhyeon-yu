@@ -8,15 +8,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.sopt.dive.R
 import com.sopt.dive.component.text.SectionTitle
 import com.sopt.dive.model.HomeListItem
 import com.sopt.dive.screen.home.component.FriendItem
 import com.sopt.dive.screen.home.component.MyProfileItem
-import com.sopt.dive.theme.DiveTheme
 
 @Composable
 fun HomeRoute(
@@ -68,30 +65,5 @@ fun HomeScreen(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun HomeScreenPreview() {
-    DiveTheme {
-        HomeScreen(
-            items = listOf(
-                HomeListItem.SectionHeader(title = "내 프로필"),
-                HomeListItem.MyProfile(name = "수현", statusMessage = "안뇽", R.drawable.profile),
-                HomeListItem.SectionHeader(title = "친구"),
-                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
-                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
-                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
-                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
-                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
-                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
-                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
-                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
-                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
-                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile),
-                HomeListItem.FriendRow(name = "나현", statusMessage = "하이루", R.drawable.profile)
-                )
-        )
     }
 }
