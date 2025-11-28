@@ -1,5 +1,6 @@
 package com.sopt.dive.screen.signin
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -24,6 +26,7 @@ import com.sopt.dive.component.button.BasicButton
 import com.sopt.dive.component.text.LabeledTextField
 import com.sopt.dive.component.text.Title
 import com.sopt.dive.util.noRippleClickable
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SignInScreen(
@@ -31,15 +34,18 @@ fun SignInScreen(
     onSignUpClick: () -> Unit
 ) {
     val viewModel: SignInViewModel = viewModel()
-    val loginState = viewModel.loginState.value
+    val context = LocalContext.current
 
-    var id by rememberSaveable { mutableStateOf("")}
-    var password by rememberSaveable { mutableStateOf("")}
+    var id by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
 
-    LaunchedEffect(loginState) {
-        val userId = loginState?.data?.userId
-        if (userId != null) {
-            onLoginSuccess(userId.toString())
+    LaunchedEffect(Unit) {
+        viewModel.loginEvent.collectLatest { event ->
+            when (event) {
+                is LoginEvent.Success -> onLoginSuccess(event.userId)
+                is LoginEvent.Failure ->
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
