@@ -17,7 +17,7 @@ class SignUpViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(SignUpUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _signUpSuccess = MutableSharedFlow<Unit>()
+    private val _signUpSuccess = MutableSharedFlow<String>()
     val signUpSuccess = _signUpSuccess.asSharedFlow()
 
     private val _errorMessage = MutableSharedFlow<String>()
@@ -53,6 +53,7 @@ class SignUpViewModel : ViewModel() {
             state.email.isBlank() ||
             ageInt == null
         ) {
+            // 코루틴 사용
             viewModelScope.launch { _errorMessage.emit("모든 항목을 올바르게 입력해주세요.") }
             return
         }
@@ -72,7 +73,7 @@ class SignUpViewModel : ViewModel() {
                 )
 
                 if (response.success) {
-                    _signUpSuccess.emit(Unit)
+                    _signUpSuccess.emit("회원가입에 성공했습니다.")
                 } else {
                     _errorMessage.emit(response.message)
                 }
