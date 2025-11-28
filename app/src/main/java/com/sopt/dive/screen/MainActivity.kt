@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.sopt.dive.navigation.DiveApp
-import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.theme.DiveTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

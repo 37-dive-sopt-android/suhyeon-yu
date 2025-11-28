@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
 import com.sopt.dive.screen.search.component.FlipCard
 import com.sopt.dive.screen.search.component.SpringCard
-import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.theme.DiveTheme
 
 @Composable
 fun SearchScreen() {

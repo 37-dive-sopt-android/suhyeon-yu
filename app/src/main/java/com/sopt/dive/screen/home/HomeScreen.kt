@@ -16,7 +16,7 @@ import com.sopt.dive.component.text.SectionTitle
 import com.sopt.dive.model.HomeListItem
 import com.sopt.dive.screen.home.component.FriendItem
 import com.sopt.dive.screen.home.component.MyProfileItem
-import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.theme.DiveTheme
 
 @Composable
 fun HomeRoute(

@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.screen.mypage.component.InfoItem
-import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.theme.DiveTheme
 
 @Composable
 fun MyPageScreen(
