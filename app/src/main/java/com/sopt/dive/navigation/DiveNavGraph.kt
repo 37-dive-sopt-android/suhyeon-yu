@@ -11,6 +11,7 @@ import com.sopt.dive.screen.search.SearchScreen
 import com.sopt.dive.screen.search.navigation.Search
 import com.sopt.dive.screen.signin.SignInScreen
 import com.sopt.dive.screen.signin.navigation.SignIn
+import com.sopt.dive.screen.signup.SignUpRoute
 import com.sopt.dive.screen.signup.SignUpScreen
 import com.sopt.dive.screen.signup.navigation.SignUp
 
@@ -34,7 +35,7 @@ fun NavGraphBuilder.diveNavGraph(
     }
 
     composable<SignUp> {
-        SignUpScreen(
+        SignUpRoute (
             onSignUpSuccess = {
                 navController.popBackStack()
             }

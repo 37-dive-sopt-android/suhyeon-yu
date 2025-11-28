@@ -1,47 +1,86 @@
 package com.sopt.dive.screen.signup
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.data.dto.request.RequestSignUpDto
-import com.sopt.dive.data.dto.response.ResponseSignUpDto
 import com.sopt.dive.data.repository.UserRepository
-import com.sopt.dive.data.dto.response.ServerResponse
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class SignUpViewModel : ViewModel() {
 
     private val repo = UserRepository()
 
-    // 회원가입 성공 시
-    var signUpState = mutableStateOf<ResponseSignUpDto?>(null)
-        private set
+    private val _uiState = MutableStateFlow(SignUpUiState())
+    val uiState = _uiState.asStateFlow()
 
-    // 실패 시 띄워줄 에러 메시지
-    var errorMessage = mutableStateOf<String?>(null)
-        private set
+    private val _signUpSuccess = MutableSharedFlow<Unit>()
+    val signUpSuccess = _signUpSuccess.asSharedFlow()
 
-    fun signUp(
-        username: String,
-        password: String,
-        name: String,
-        email: String,
-        age: Int
-    ) {
+    private val _errorMessage = MutableSharedFlow<String>()
+    val errorMessage = _errorMessage.asSharedFlow()
+
+    fun updateUsername(value: String) {
+        _uiState.value = _uiState.value.copy(username = value)
+    }
+
+    fun updatePassword(value: String) {
+        _uiState.value = _uiState.value.copy(password = value)
+    }
+
+    fun updateName(value: String) {
+        _uiState.value = _uiState.value.copy(name = value)
+    }
+
+    fun updateEmail(value: String) {
+        _uiState.value = _uiState.value.copy(email = value)
+    }
+
+    fun updateAge(value: String) {
+        _uiState.value = _uiState.value.copy(age = value)
+    }
+
+    fun signUp() {
+        val state = _uiState.value
+        val ageInt = state.age.toIntOrNull()
+
+        if (state.username.isBlank() ||
+            state.password.isBlank() ||
+            state.name.isBlank() ||
+            state.email.isBlank() ||
+            ageInt == null
+        ) {
+            viewModelScope.launch { _errorMessage.emit("모든 항목을 올바르게 입력해주세요.") }
+            return
+        }
+
         viewModelScope.launch {
+            _uiState.value = state.copy(isLoading = true)
+
             try {
-                val response: ServerResponse<ResponseSignUpDto> =
-                    repo.signUp(RequestSignUpDto(username, password, name, email, age))
+                val response = repo.signUp(
+                    RequestSignUpDto(
+                        username = state.username,
+                        password = state.password,
+                        name = state.name,
+                        email = state.email,
+                        age = ageInt
+                    )
+                )
 
                 if (response.success) {
-                    signUpState.value = response.data
+                    _signUpSuccess.emit(Unit)
                 } else {
-                    errorMessage.value = response.message
+                    _errorMessage.emit(response.message)
                 }
 
             } catch (e: Exception) {
-                errorMessage.value = "서버 오류가 발생했습니다."
-                e.printStackTrace()
+                _errorMessage.emit("서버 오류가 발생했습니다.")
+            } finally {
+                _uiState.value = _uiState.value.copy(isLoading = false)
             }
         }
     }
