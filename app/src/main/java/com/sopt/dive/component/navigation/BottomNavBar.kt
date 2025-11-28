@@ -19,7 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.sopt.dive.navigation.NavBarDestination
 import com.sopt.dive.screen.home.navigation.Home
-import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.theme.DiveTheme
 
 @Composable
 fun BottomNavBar(navController: NavHostController) {

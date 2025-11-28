@@ -9,13 +9,16 @@
     <string name="id_label">ID</string>
     <string name="pw_label">PW</string>
     <string name="nickname_label">NICKNAME</string>
-    <string name="etc_label">ALCOHOL TOLERANCE</string>
+    <string name="email_label">EMAIL</string>
+    <string name="age_label">AGE</string>
+    <string name="status_label">STATUS</string>
 
     <!-- TextField -->
     <string name="id_hint">아이디를 입력해주세요</string>
     <string name="pw_hint">비밀번호를 입력해주세요</string>
     <string name="nickname_hint">닉네임을 입력해주세요</string>
-    <string name="etc_hint">주량을 입력해주세요</string>
+    <string name="email_hint">이메일을 입력해주세요</string>
+    <string name="age_hint">나이를 입력해주세요</string>
 
     <!-- Button -->
     <string name="login_button">로그인</string>
@@ -29,5 +32,8 @@
     <string name="toast_id_fail">아이디는 6-10자여야 합니다</string>
     <string name="toast_pw_fail">비밀번호는 8-12자여야 합니다</string>
     <string name="toast_nickname_fail">닉네임을 입력해주세요</string>
+
+    <!-- alert -->
+    <string name = "info_loading">정보를 불러오는 중입니다...</string>
 
 </resources>

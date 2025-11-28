@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.theme
+package com.sopt.dive.theme
 
 import androidx.compose.ui.graphics.Color
 
