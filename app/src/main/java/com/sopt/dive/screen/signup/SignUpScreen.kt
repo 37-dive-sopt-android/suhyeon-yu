@@ -31,15 +31,16 @@ fun SignUpRoute(
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewModel.signUpSuccess.collectLatest { msg ->
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-            onSignUpSuccess()
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.errorMessage.collectLatest { message ->
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        viewModel.event.collectLatest { event ->
+            when (event) {
+                is SignUpEvent.Success -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                    onSignUpSuccess()
+                }
+                is SignUpEvent.Error -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

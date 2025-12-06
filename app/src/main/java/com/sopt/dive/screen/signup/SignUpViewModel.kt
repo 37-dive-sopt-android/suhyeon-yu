@@ -10,6 +10,11 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+sealed interface SignUpEvent {
+    data class Success(val message: String) : SignUpEvent
+    data class Error(val message: String) : SignUpEvent
+}
+
 class SignUpViewModel : ViewModel() {
 
     private val repo = UserRepository()
@@ -17,11 +22,8 @@ class SignUpViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(SignUpUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _signUpSuccess = MutableSharedFlow<String>()
-    val signUpSuccess = _signUpSuccess.asSharedFlow()
-
-    private val _errorMessage = MutableSharedFlow<String>()
-    val errorMessage = _errorMessage.asSharedFlow()
+    private val _event = MutableSharedFlow<SignUpEvent>()
+    val event = _event.asSharedFlow()
 
     fun updateUsername(value: String) {
         _uiState.value = _uiState.value.copy(username = value)
@@ -53,8 +55,9 @@ class SignUpViewModel : ViewModel() {
             state.email.isBlank() ||
             ageInt == null
         ) {
-            // 코루틴 사용
-            viewModelScope.launch { _errorMessage.emit("모든 항목을 올바르게 입력해주세요.") }
+            viewModelScope.launch {
+                _event.emit(SignUpEvent.Error("모든 항목을 올바르게 입력해주세요."))
+            }
             return
         }
 
@@ -73,13 +76,13 @@ class SignUpViewModel : ViewModel() {
                 )
 
                 if (response.success) {
-                    _signUpSuccess.emit("회원가입에 성공했습니다.")
+                    _event.emit(SignUpEvent.Success("회원가입에 성공했습니다."))
                 } else {
-                    _errorMessage.emit(response.message)
+                    _event.emit(SignUpEvent.Error(response.message))
                 }
 
             } catch (e: Exception) {
-                _errorMessage.emit("서버 오류가 발생했습니다.")
+                _event.emit(SignUpEvent.Error("서버 오류가 발생했습니다."))
             } finally {
                 _uiState.value = _uiState.value.copy(isLoading = false)
             }
